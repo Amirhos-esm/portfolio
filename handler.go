@@ -20,21 +20,21 @@ type Authentication struct {
 }
 
 func (app *Application) loginHandler(ctx *gin.Context) {
-	type Authentication struct {
-		Password string `json:"password"`
-	}
-	// read json payload
-	input := Authentication{}
-	// Parse and validate the JSON input
-	if err := ctx.ShouldBindJSON(&input); err != nil {
-		ctx.String(http.StatusBadRequest, err.Error())
-		return
-	}
+	// type Authentication struct {
+	// 	Password string `json:"password"`
+	// }
+	// // read json payload
+	// input := Authentication{}
+	// // Parse and validate the JSON input
+	// if err := ctx.ShouldBindJSON(&input); err != nil {
+	// 	ctx.String(http.StatusBadRequest, err.Error())
+	// 	return
+	// }
 
-	if input.Password != app.password {
-		ctx.String(http.StatusUnauthorized, "")
-		return
-	}
+	// if input.Password != app.password {
+	// 	ctx.String(http.StatusUnauthorized, "")
+	// 	return
+	// }
 
 	// create a jwt user
 	jwt_user := jwtUser{

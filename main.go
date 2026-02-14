@@ -90,7 +90,7 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 
 	if app.enablePlayground {
 		r.GET("/GraphQL", gin.WrapH(
-			playground.Handler("GraphQL", "/query"),
+			playground.Handler("GraphQL", "/graphql"),
 		))
 	}
 
@@ -102,9 +102,10 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 
 	// protected routes
 	admin := app.AuthRequiredMiddleware()
+	// admin := func(*gin.Context){}
 
-	r.POST("/query", admin, gin.WrapH(srv))
-	r.GET("/query", admin, gin.WrapH(srv))
+	r.POST("/graphql", admin, gin.WrapH(srv))
+	r.GET("/graphql", admin, gin.WrapH(srv))
 
 	r.POST("/projects/:id/gallery/", admin, app.addProjectGallery)
 	r.POST("/profile", admin, app.profileUploadHandler)

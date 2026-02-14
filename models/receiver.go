@@ -64,13 +64,14 @@ func (p *Project) AddFeature(feature *ProjectFeature) {
 	if feature == nil {
 		return
 	}
-
+	var max  uint = 0
 	for _, f := range p.Features {
-		if f.ID == feature.ID {
-			return // already exists
+		if f.ID > uint(max) {
+			max = f.ID
 		}
 	}
 
+	feature.ID = max + 1
 	p.Features = append(p.Features, feature)
 }
 

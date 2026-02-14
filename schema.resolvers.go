@@ -29,6 +29,19 @@ func (r *mutationResolver) UpdatePersonalInformation(ctx context.Context, input 
 	return existing, nil
 }
 
+// AddExperience is the resolver for the addExperience field.
+func (r *mutationResolver) AddExperience(ctx context.Context, input models.UpdateExperienceInput) (*models.Experience, error) {
+	exp := models.NewExperience()
+	if err := util.PatchStruct(exp, &input); err != nil {
+		return nil, err
+	}
+
+	if err := r.repo.AddExperience(exp); err != nil {
+		return nil, err
+	}
+	return exp, nil
+}
+
 // UpdateExperience is the resolver for the updateExperience field.
 func (r *mutationResolver) UpdateExperience(ctx context.Context, id uint, input models.UpdateExperienceInput) (*models.Experience, error) {
 	exp, err := r.repo.GetExperience(id)
@@ -58,6 +71,19 @@ func (r *mutationResolver) DeleteExperience(ctx context.Context, id uint) (bool,
 	}
 
 	return true, nil
+}
+
+// AddEducation is the resolver for the addEducation field.
+func (r *mutationResolver) AddEducation(ctx context.Context, input models.UpdateEducationInput) (*models.Education, error) {
+	educ := models.NewEducation()
+	if err := util.PatchStruct(educ, &input); err != nil {
+		return nil, err
+	}
+
+	if err := r.repo.AddEducation(educ); err != nil {
+		return nil, err
+	}
+	return educ, nil
 }
 
 // UpdateEducation is the resolver for the updateEducation field.
@@ -164,6 +190,19 @@ func (r *mutationResolver) RemoveSoftSkill(ctx context.Context, userID string, s
 	return skills, nil
 }
 
+// AddProject is the resolver for the addProject field.
+func (r *mutationResolver) AddProject(ctx context.Context, input models.ProjectBasicUpdateInput) (*models.Project, error) {
+	project := models.NewProject()
+	if err := util.PatchStruct(project, &input); err != nil {
+		return nil, err
+	}
+
+	if err := r.repo.AddProject(project); err != nil {
+		return nil, err
+	}
+	return project, nil
+}
+
 // UpdateProjectBasic is the resolver for the updateProjectBasic field.
 func (r *mutationResolver) UpdateProjectBasic(ctx context.Context, projectID uint, input models.ProjectBasicUpdateInput) (*models.Project, error) {
 	project, err := r.repo.GetProject(projectID)
@@ -232,26 +271,23 @@ func (r *mutationResolver) UpdateProjectTechStack(ctx context.Context, projectID
 
 // AddProjectFeature is the resolver for the addProjectFeature field.
 func (r *mutationResolver) AddProjectFeature(ctx context.Context, projectID uint, input models.CreateProjectFeatureInput) (*models.ProjectFeature, error) {
-	// project, err := r.repo.GetProject(projectID)
-	// if err != nil || project == nil {
-	// 	return nil, ErrNotFound
-	// }
+	project, err := r.repo.GetProject(projectID)
+	if err != nil || project == nil {
+		return nil, ErrNotFound
+	}
 
-	// feature := &models.ProjectFeature{
-	// 	ID:          input.ID,
-	// 	Title:       input.Title,
-	// 	Description: input.Description,
-	// }
+	feature := &models.ProjectFeature{
+		Title:       input.Title,
+		Description: input.Description,
+	}
 
-	// project.AddFeature(feature)
+	project.AddFeature(feature)
 
-	// if err := r.repo.UpdateProject(projectID, project); err != nil {
-	// 	return nil, err
-	// }
+	if err := r.repo.UpdateProject(projectID, project); err != nil {
+		return nil, err
+	}
+	return feature, nil
 
-	// return feature, nil
-
-	return nil, nil
 }
 
 // UpdateProjectFeature is the resolver for the updateProjectFeature field.

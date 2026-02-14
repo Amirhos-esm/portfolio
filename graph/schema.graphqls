@@ -170,10 +170,12 @@ type Mutation {
   updatePersonalInformation(
     input: UpdatePersonalInformationInput!
   ): PersonalInformation!
+  addExperience(input: UpdateExperienceInput!): Experience!
   updateExperience(id: Uint!, input: UpdateExperienceInput!): Experience!
   deleteExperience(id: Uint!): Boolean!
 
 
+  addEducation( input: UpdateEducationInput!): Education!
   updateEducation(id: Uint!, input: UpdateEducationInput!): Education!
   deleteEducation(id: Uint!): Boolean!
 
@@ -183,6 +185,7 @@ type Mutation {
   addSoftSkill(userId: ID!, skill: String!): Skills!
   removeSoftSkill(userId: ID!, skill: String!): Skills!
 
+  addProject(input: ProjectBasicUpdateInput!): Project!
    updateProjectBasic(
     projectId: Uint!
     input: ProjectBasicUpdateInput!
