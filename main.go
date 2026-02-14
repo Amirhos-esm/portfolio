@@ -75,40 +75,11 @@ func (app *Application) newGraphQLServer() *handler.Server {
 	srv.AddTransport(transport.POST{})
 
 	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
-	
+
 	srv.Use(extension.Introspection{})
 
-<<<<<<< HEAD
-	srv.Use(extension.AutomaticPersistedQuery{Cache: lru.New[string](100)})
-=======
-	// 🔥 Mount GraphQL endpoint
-	sv.POST("/graphql", gin.WrapH(srv))
-	sv.GET("/graphql", gin.WrapH(srv))
-	// Optional Playground
-	sv.GET("/GraphQL", func(c *gin.Context) {
-		playground.Handler("GraphQL", "/graphql").ServeHTTP(c.Writer, c.Request)
-	})
 
-	sv.GET("/", func(ctx *gin.Context) {
-		data, err := app.repo.GetAllData()
-		if err != nil {
-			ctx.String(http.StatusInternalServerError, err.Error())
-			return
-		}
-		views.Render(ctx.Writer, ctx.Request, pages.MainPage(data))
-	})
-	sv.POST("/login",func(ctx *gin.Context) {
-		ctx.JSON(200,gin.H{
-			"token":"asdadasd",
-		})
-	})
-	sv.GET("/projects/:id", app.ProjectHandler)
-	sv.POST("/projects/:id/gallery/", app.addProjectGallery)
-	sv.POST("/profile", app.profileUploadHandler)
-	sv.POST("/resume",app.resumeUploadHandler)
-	sv.Static("/static", app.staticFolder)
-	sv.Run("localhost:8080")
->>>>>>> c95efd425f98fb11522562f8fcef5dc3ec110aff
+	srv.Use(extension.AutomaticPersistedQuery{Cache: lru.New[string](100)})
 
 	return srv
 }

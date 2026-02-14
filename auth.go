@@ -24,7 +24,7 @@ type Auth struct {
 func NewAuth() Auth {
 	return Auth{
 		Issuer:        "my-app",
-		TokenExpiry:   15 * time.Minute,
+		TokenExpiry:   60 * time.Minute,
 		RefreshExpiry: 24 * time.Hour,
 		CookiePath:    "/",
 		CookieName:    "auth_token",
