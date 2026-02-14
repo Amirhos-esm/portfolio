@@ -1,0 +1,49 @@
+package layouts 
+
+templ Project(titla string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+			<title>Analytics Dashboard - Project Detail</title>
+			<script src="/static/script/project/3.4.js"></script>
+			<link
+				href="/static/style/project/main.css"
+				rel="stylesheet"
+			/>
+			<link
+				href="/static/style/project/sec.css"
+				rel="stylesheet"
+			/>
+			<style type="text/tailwindcss">
+    @layer base {
+            body {
+                @apply bg-[#0F172A] text-slate-300 font-['Inter'] antialiased;
+            }
+        }
+        :root {
+            --primary: #10B981;
+            --bg-dark: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.5);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-effect {
+            box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+        }
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+    </style>
+		</head>
+		<body class="min-h-screen">
+			{ children... }
+		</body>
+	</html>
+}

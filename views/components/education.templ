@@ -1,0 +1,51 @@
+package components
+
+import "github.com/Amirhos-esm/portfolio/models"
+
+templ getDate(data *models.Education) {
+	if data.EndDate == nil {
+		{ data.GetStartDate() } - Present
+	} else {
+		{ data.GetStartDate() } - { data.GetEndDate() }
+	}
+}
+
+templ EducationCard(data *models.Education) {
+	<div
+		class="p-10 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark"
+	>
+		<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+			<span class="material-icons-round text-primary">school</span>
+		</div>
+		<h3 class="text-2xl font-bold mb-2">{ data.Degree }</h3>
+		<p class="text-primary font-semibold mb-4">{ data.School }</p>
+		<div class="flex items-center gap-4 text-sm text-slate-500 mb-6">
+			<span class="flex items-center gap-1">
+				<span
+					class="material-icons-round text-sm"
+				>calendar_today</span> @getDate(data)
+			</span>
+			<span class="flex items-center gap-1">
+				<span class="material-icons-round text-sm">place</span>
+				{ data.Location }
+			</span>
+		</div>
+		<p class="text-slate-600 dark:text-slate-400">{ data.Description }</p>
+	</div>
+}
+
+templ EducationSection(data []models.Education) {
+	<div class="max-w-7xl mx-auto">
+		<div class="text-center mb-16">
+			<h2 class="text-4xl font-bold mb-4 relative inline-block">
+				Education
+				<span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+			</h2>
+		</div>
+		<div class="grid md:grid-cols-2 gap-8">
+			for _, edu := range data {
+				@EducationCard(&edu)
+			}
+		</div>
+	</div>
+}

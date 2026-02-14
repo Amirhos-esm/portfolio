@@ -1,0 +1,65 @@
+package layouts
+
+templ Main(title string) {
+	<!DOCTYPE html>
+	<html class="scroll-smooth" lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+			<title>{ title }</title>
+            <!--
+			<link href="https://fonts.googleapis.com" rel="preconnect"/>
+			<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+            -->
+			<link
+				href="/static/style/main/main.css"
+				rel="stylesheet"
+			/>
+			<link href="/static/style/main/icon.css" rel="stylesheet"/>
+			<script src="/static/script/main/3.4.js"></script>
+			<script>
+         tailwind.config = {
+             darkMode: "class",
+             theme: {
+                 extend: {
+                     colors: {
+                         primary: "#10b981",
+                         "background-light": "#ffffff",
+                         "background-dark": "#0a0a0a",
+                         "card-dark": "#141414",
+                         "border-dark": "#262626",
+                     },
+                     fontFamily: {
+                         sans: ["Inter", "sans-serif"],
+                     },
+                     borderRadius: {
+                         DEFAULT: "0.75rem",
+                     },
+                 },
+             },
+         };
+      </script>
+			<style>
+         body {
+         font-family: 'Inter', sans-serif;
+         }
+         .timeline-line::before {
+         content: '';
+         position: absolute;
+         left: 0;
+         top: 0;
+         bottom: 0;
+         width: 2px;
+         background: #262626;
+         }
+         .nav-link {
+         transition: color 0.2s ease;
+         }
+
+      </style>
+		</head>
+		<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 selection:bg-primary/30">
+			{ children... }
+		</body>
+	</html>
+}

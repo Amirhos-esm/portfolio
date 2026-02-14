@@ -1,0 +1,149 @@
+package pages
+
+import "github.com/Amirhos-esm/portfolio/views/layouts"
+import "github.com/Amirhos-esm/portfolio/views/components"
+import "github.com/Amirhos-esm/portfolio/models"
+
+templ MainPage(data *models.DataStore) {
+	@layouts.Main(data.PersonalInformation.FullName + " Portfolio") {
+		@components.NavigationBar()
+		<section class="pt-40 pb-20 px-6">
+			@components.Hero(&data.PersonalInformation)
+		</section>
+		<section class="py-24 px-6 border-t border-slate-100 dark:border-border-dark" id="about">
+			@components.AboutMe(&data.PersonalInformation)
+		</section>
+		<section class="py-24 px-6 bg-slate-50 dark:bg-background-dark" id="skills">
+			@components.Expertise(&data.Skills)
+		</section>
+		<section class="py-24 px-6" id="experience">
+			@components.ExperienceSection(data.Experiences)
+		</section>
+		<section class="py-24 px-6 bg-slate-50 dark:bg-background-dark" id="education">
+			@components.EducationSection(data.Educations)
+		</section>
+		<section class="py-24 px-6" id="projects">
+			@components.ProjectSection(data.Projects)
+		</section>
+		<section class="py-24 px-6 bg-slate-50 dark:bg-background-dark/50" id="contact">
+			@components.GetInTouch(&data.PersonalInformation)
+		</section>
+		<footer class="py-12 border-t border-slate-100 dark:border-border-dark">
+			<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-center items-center gap-6">
+				<p class="text-slate-500 text-sm">© 2026 {data.PersonalInformation.FullName}. All rights reserved.</p>
+			</div>
+		</footer>
+		<script>
+         // Theme handling + mobile menu support: persistent light/dark/system choice
+         (function() {
+             const THEME_KEY = 'theme';
+             const toggleBtn = document.getElementById('theme-toggle');
+             const toggleIcon = document.getElementById('theme-toggle-icon');
+             const select = document.getElementById('theme-select');
+             const mobileToggleBtn = document.getElementById('mobile-theme-toggle');
+             const mobileSelect = document.getElementById('mobile-theme-select');
+             const mobileMenuBtn = document.getElementById('mobile-menu-button');
+             const mobileMenu = document.getElementById('mobile-menu');
+             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+             function applyTheme(theme) {
+                 if (theme === 'dark') {
+                     document.documentElement.classList.add('dark');
+                     if (toggleIcon) toggleIcon.textContent = 'dark_mode';
+                 } else if (theme === 'light') {
+                     document.documentElement.classList.remove('dark');
+                     if (toggleIcon) toggleIcon.textContent = 'light_mode';
+                 } else { // system
+                     if (prefersDark.matches) {
+                         document.documentElement.classList.add('dark');
+                         if (toggleIcon) toggleIcon.textContent = 'dark_mode';
+                     } else {
+                         document.documentElement.classList.remove('dark');
+                         if (toggleIcon) toggleIcon.textContent = 'light_mode';
+                     }
+                 }
+                 if (select) select.value = theme || 'system';
+                 if (mobileSelect) mobileSelect.value = theme || 'system';
+                 if (mobileToggleBtn) mobileToggleBtn.querySelector('.material-icons-round').textContent = (theme === 'dark' || (theme === 'system' && prefersDark.matches)) ? 'dark_mode' : 'light_mode';
+             }
+
+             function setTheme(theme) {
+                 if (theme === 'system') {
+                     localStorage.removeItem(THEME_KEY);
+                 } else {
+                     localStorage.setItem(THEME_KEY, theme);
+                 }
+                 applyTheme(theme);
+             }
+
+             // Init
+             const stored = localStorage.getItem(THEME_KEY);
+             applyTheme(stored || 'system');
+
+             // React to system changes when in 'system' mode
+             prefersDark.addEventListener('change', () => {
+                 const current = localStorage.getItem(THEME_KEY) || 'system';
+                 if (current === 'system') applyTheme('system');
+             });
+
+             if (toggleBtn) {
+                 toggleBtn.addEventListener('click', () => {
+                     const current = localStorage.getItem(THEME_KEY) || (prefersDark.matches ? 'dark' : 'light');
+                     const next = current === 'dark' ? 'light' : 'dark';
+                     setTheme(next);
+                 });
+             }
+
+             if (select) {
+                 select.addEventListener('change', (e) => {
+                     setTheme(e.target.value);
+                 });
+             }
+
+             if (mobileToggleBtn) {
+                 mobileToggleBtn.addEventListener('click', () => {
+                     const current = localStorage.getItem(THEME_KEY) || (prefersDark.matches ? 'dark' : 'light');
+                     const next = current === 'dark' ? 'light' : 'dark';
+                     setTheme(next);
+                 });
+             }
+
+             if (mobileSelect) {
+                 mobileSelect.addEventListener('change', (e) => {
+                     setTheme(e.target.value);
+                 });
+             }
+
+             // Mobile menu toggle and close behavior
+             if (mobileMenuBtn && mobileMenu) {
+                 mobileMenuBtn.addEventListener('click', () => {
+                     const isHidden = mobileMenu.classList.toggle('hidden');
+                     mobileMenuBtn.setAttribute('aria-expanded', (!isHidden).toString());
+                 });
+
+                 mobileMenu.querySelectorAll('a[href^="#"]').forEach(a => {
+                     a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+                 });
+
+                 // Close when clicking outside
+                 document.addEventListener('click', (e) => {
+                     if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                         mobileMenu.classList.add('hidden');
+                         mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                     }
+                 });
+             }
+         })();
+
+         // Add smooth interaction for navigation
+         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+             anchor.addEventListener('click', function (e) {
+                 e.preventDefault();
+                 document.querySelector(this.getAttribute('href')).scrollIntoView({
+                     behavior: 'smooth'
+                 });
+             });
+         });
+      </script>
+	}
+}

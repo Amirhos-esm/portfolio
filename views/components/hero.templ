@@ -1,0 +1,41 @@
+package components
+
+import "github.com/Amirhos-esm/portfolio/models"
+
+templ Hero(data *models.PersonalInformation) {
+	<div class="max-w-3xl mx-auto text-center">
+		<div class="relative inline-block mb-8">
+			<div
+				class="w-32 h-32 rounded-full border-4 border-slate-200 dark:border-border-dark overflow-hidden mx-auto"
+			>
+				<img
+					class="w-full h-full object-cover"
+					src="/static/image/profile-image.png"
+				/>
+			</div>
+			<div
+				class="absolute bottom-1 right-2 w-6 h-6 bg-slate-800 dark:bg-slate-700 rounded-full border-2 border-background-light dark:border-background-dark"
+			></div>
+		</div>
+		<h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-tight">Hi, I'm <br/>{ data.FullName }</h1>
+		<h2 class="text-xl md:text-2xl font-semibold text-primary mb-8">{ data.ProfessionalTitle }</h2>
+		<p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+			{ data.Bio }
+		</p>
+		<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+			<a
+				class="w-full sm:w-auto px-10 py-4 bg-primary text-white font-semibold rounded-full hover:opacity-90 transition-opacity"
+				href="#projects"
+			>
+				View Portfolio
+			</a>
+			<a href="/resume.pdf" class="w-full sm:w-auto px-10 py-4 flex items-center justify-center gap-2 border border-slate-200 dark:border-border-dark font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-card-dark transition-colors">
+				<span class="material-icons-round text-sm">download</span>
+				Download Resume
+			</a>
+		</div>
+		<div class="mt-20 animate-bounce">
+			<span class="material-icons-round opacity-40">expand_more</span>
+		</div>
+	</div>
+}

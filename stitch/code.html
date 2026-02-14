@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Analytics Dashboard - Project Detail</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+            body {
+                @apply bg-[#0F172A] text-slate-300 font-['Inter'] antialiased;
+            }
+        }
+        :root {
+            --primary: #10B981;
+            --bg-dark: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.5);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-effect {
+            box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+        }
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+  <header class="max-w-7xl mx-auto px-6 pt-12 pb-8">
+    <a class="inline-flex items-center gap-2 text-slate-400 hover:text-[#10B981] transition-colors group" href="#">
+      <span
+        class="material-symbols-outlined text-xl transition-transform group-hover:-translate-x-1">chevron_left</span>
+      <span class="font-medium">Back to Projects</span>
+    </a>
+  </header>
+  <main class="max-w-7xl mx-auto px-6 pb-24">
+    <section class="mb-16">
+      <div class="flex flex-wrap gap-3 mb-6">
+        <span
+          class="px-4 py-1.5 rounded-full bg-[#10B981]/10 text-[#10B981] text-xs font-bold tracking-wider uppercase">SaaS
+          Platform</span>
+        <span class="px-4 py-1.5 rounded-full bg-slate-800 text-slate-400 text-xs font-bold tracking-wider uppercase">UX
+          Research</span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-7">
+          <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+            Analytics <br /> Dashboard
+          </h1>
+          <p class="text-xl text-slate-400 max-w-xl leading-relaxed">
+            A high-performance enterprise interface designed to visualize complex data streams for real-time decision
+            making.
+          </p>
+        </div>
+        <div class="lg:col-span-5">
+          <div class="glass-card rounded-3xl p-8 grid grid-cols-3 gap-6">
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Role</p>
+              <p class="text-white font-medium">Lead Designer</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Duration</p>
+              <p class="text-white font-medium">3 Months</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Client</p>
+              <p class="text-white font-medium">TechCorp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[#10B981] text-[#0F172A] font-bold transition-all hover:scale-105 glow-effect"
+          href="#">
+          View Live Site
+        </a>
+        <a class="inline-flex items-center justify-center px-8 py-4 rounded-xl border border-slate-700 text-white font-bold transition-all hover:bg-slate-800"
+          href="#">
+          View Source Code
+        </a>
+      </div>
+    </section>
+    <section class="mb-24">
+      <div class="project-gallery">
+        <!-- Main image / viewer -->
+        <div class="mb-8 relative rounded-[24px] overflow-hidden shadow-2xl shadow-black/50 border border-white/5 bg-slate-900/10">
+          <button id="prevImg" aria-label="Previous image" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/20 hover:bg-black/30 text-white p-3 rounded-full focus:outline-none">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <img id="mainImage" alt="Dashboard Hero" class="w-full h-80 md:h-[500px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvTpl-Yjqm7bdGgq5sxOcLKp2SASkDvd2VH8rZ4b5wxPlx_C-0AZphIdzXRFwI4vyGMjXMXKt_vfZB0eBHlYz_ZCw78bYc0zFEqfjtPzS7V6bUgCZNg05wXbT_NfZ5-T0yTI42raepdbqjw6MIqLaFekB5gn3S_qlspJNLdkQBdWL9a28-h91jiOTGPoZvNRdBY2j1k_BWw4Vi0ItkVYIScHutLd5nusKHv5WVEXsW2Jtj8nYH_FbIkrkSXofPglXaSGaKU02upA" />
+          <button id="nextImg" aria-label="Next image" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/20 hover:bg-black/30 text-white p-3 rounded-full focus:outline-none">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+
+        <!-- Thumbnails (selectable) - horizontal row of smaller thumbnails -->
+        <div class="thumbnails-row mt-4 flex gap-4 overflow-x-auto items-center py-2" role="tablist" aria-label="Project images">
+          <button class="thumb-btn flex-shrink-0 w-40 h-24 rounded-lg border border-white/5 overflow-hidden focus:outline-none" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvTpl-Yjqm7bdGgq5sxOcLKp2SASkDvd2VH8rZ4b5wxPlx_C-0AZphIdzXRFwI4vyGMjXMXKt_vfZB0eBHlYz_ZCw78bYc0zFEqfjtPzS7V6bUgCZNg05wXbT_NfZ5-T0yTI42raepdbqjw6MIqLaFekB5gn3S_qlspJNLdkQBdWL9a28-h91jiOTGPoZvNRdBY2j1k_BWw4Vi0ItkVYIScHutLd5nusKHv5WVEXsW2Jtj8nYH_FbIkrkSXofPglXaSGaKU02upA" data-alt="Dashboard Hero" aria-selected="true" aria-label="Dashboard Hero">
+            <img loading="lazy" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvTpl-Yjqm7bdGgq5sxOcLKp2SASkDvd2VH8rZ4b5wxPlx_C-0AZphIdzXRFwI4vyGMjXMXKt_vfZB0eBHlYz_ZCw78bYc0zFEqfjtPzS7V6bUgCZNg05wXbT_NfZ5-T0yTI42raepdbqjw6MIqLaFekB5gn3S_qlspJNLdkQBdWL9a28-h91jiOTGPoZvNRdBY2j1k_BWw4Vi0ItkVYIScHutLd5nusKHv5WVEXsW2Jtj8nYH_FbIkrkSXofPglXaSGaKU02upA" alt="Dashboard Hero thumbnail">
+          </button>
+          <button class="thumb-btn flex-shrink-0 w-40 h-24 rounded-lg border border-white/5 overflow-hidden focus:outline-none" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSLQ4GDlvVuZiH4F91YHlffBExPalWtv6wSjKU9gBw3VH7fl6xqWdXPwKHwxN6d-2C5LBGjnR_QnYS5w9ex7ZCvKGxIrDX-M_FsVKl-jFaRKtQBBrGGshtESLFC6HdboAL7F7_CXv78zD2qzgP9IL7g2tGJl89uWj0TXLAHGlAO8BmAJsIYrX4QxDwm7w2Oo4-QeYqFXuEjAVDtJ_Kut_ehtDUYS2iF2K9k8KyGqIjhyEKFJ6Uz9-le0qNkmPT5rOWz0GbUtMyO24" data-alt="Feature 1" aria-selected="false" aria-label="Feature 1">
+            <img loading="lazy" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSLQ4GDlvVuZiH4F91YHlffBExPalWtv6wSjKU9gBw3VH7fl6xqWdXPwKHwxN6d-2C5LBGjnR_QnYS5w9ex7ZCvKGxIrDX-M_FsVKl-jFaRKtQBBrGGshtESLFC6HdboAL7F7_CXv78zD2qzgP9IL7g2tGJl89uWj0TXLAHGlAO8BmAJsIYrX4QxDwm7w2Oo4-QeYqFXuEjAVDtJ_Kut_ehtDUYS2iF2K9k8KyGqIjhyEKFJ6Uz9-le0qNkmPT5rOWz0GbUtMyO24" alt="Feature 1 thumbnail">
+          </button>
+          <button class="thumb-btn flex-shrink-0 w-40 h-24 rounded-lg border border-white/5 overflow-hidden focus:outline-none" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU5soXIf1KMHe1axiP41tLiVep8EsN9x0dTUzEBKEhdpnTfv3hXKtkLHmimgZYuqbyUyxG-spqLUGaV7ixs3iUXSfRLGRxKDW7hJyn73O-pWBp_fLlSeCHMStHHbtweKDM7iDI3dVwhXDZX5LgIKejFU3jqS4K0w8y9x6v1lZPSBMp54pGf4wECfhrUveTnctiPJtffPhLzxhSpHGSqxCEwvfrY6ivZTbvd0b4_xymRZJAY6VI48HRYj_V6z606DyEZPxow4197N8" data-alt="Feature 2" aria-selected="false" aria-label="Feature 2">
+            <img loading="lazy" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU5soXIf1KMHe1axiP41tLiVep8EsN9x0dTUzEBKEhdpnTfv3hXKtkLHmimgZYuqbyUyxG-spqLUGaV7ixs3iUXSfRLGRxKDW7hJyn73O-pWBp_fLlSeCHMStHHbtweKDM7iDI3dVwhXDZX5LgIKejFU3jqS4K0w8y9x6v1lZPSBMp54pGf4wECfhrUveTnctiPJtffPhLzxhSpHGSqxCEwvfrY6ivZTbvd0b4_xymRZJAY6VI48HRYj_V6z606DyEZPxow4197N8" alt="Feature 2 thumbnail">
+          </button>
+          <button class="thumb-btn flex-shrink-0 w-40 h-24 rounded-lg border border-white/5 overflow-hidden focus:outline-none" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMAaX18oESlmV6oO64DSpE9oO-UA1pSnwOTrL5CGCU_QPfsQCBiQQnKbd73d98ttpF_yMFUS72QyewhEtN8xX-UxR2l9s-ALXvgNOmo6nCvOuxbho8wEHy7raYGQkE0rb7zKITH9uuEePatK2JzmTEn-aqgyygF3X-NNHFSxe9HZ6hpXb1PMnkV9uG1A0fJtOQSndf6q2nOXj-lU5m_h3ExVGbyyBdwf0uPcfMHUyDDquf8RTInhABA12MmbtXQq_nPzt6CA9BCZM" data-alt="Feature 3" aria-selected="false" aria-label="Feature 3">
+            <img loading="lazy" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMAaX18oESlmV6oO64DSpE9oO-UA1pSnwOTrL5CGCU_QPfsQCBiQQnKbd73d98ttpF_yMFUS72QyewhEtN8xX-UxR2l9s-ALXvgNOmo6nCvOuxbho8wEHy7raYGQkE0rb7zKITH9uuEePatK2JzmTEn-aqgyygF3X-NNHFSxe9HZ6hpXb1PMnkV9uG1A0fJtOQSndf6q2nOXj-lU5m_h3ExVGbyyBdwf0uPcfMHUyDDquf8RTInhABA12MmbtXQq_nPzt6CA9BCZM" alt="Feature 3 thumbnail">
+          </button>
+        </div>
+
+        <script>
+          (function () {
+            const gallery = document.querySelector('.project-gallery');
+            const main = gallery.querySelector('#mainImage');
+            const thumbs = Array.from(gallery.querySelectorAll('.thumb-btn'));
+            const prevBtn = gallery.querySelector('#prevImg');
+            const nextBtn = gallery.querySelector('#nextImg');
+
+            function setActive(index) {
+              thumbs.forEach((t, i) => {
+                t.classList.remove('ring-2', 'ring-[#10B981]/40', 'border-[#10B981]', 'opacity-80', 'scale-102');
+                t.setAttribute('aria-selected', 'false');
+              });
+              const active = thumbs[index];
+              if (!active) return;
+              active.classList.add('ring-2', 'ring-[#10B981]/40', 'border-[#10B981]', 'opacity-100');
+              active.setAttribute('aria-selected', 'true');
+              main.src = active.dataset.src;
+              main.alt = active.dataset.alt || '';
+              active.focus();
+              gallery.dataset.index = index;
+            }
+
+            thumbs.forEach((t, i) => {
+              t.addEventListener('click', () => setActive(i));
+              t.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActive(i);
+                }
+                if (e.key === 'ArrowRight') {
+                  e.preventDefault();
+                  const next = (i + 1) % thumbs.length;
+                  thumbs[next].focus();
+                }
+                if (e.key === 'ArrowLeft') {
+                  e.preventDefault();
+                  const prev = (i - 1 + thumbs.length) % thumbs.length;
+                  thumbs[prev].focus();
+                }
+              });
+            });
+
+            prevBtn.addEventListener('click', () => {
+              const idx = (parseInt(gallery.dataset.index || '0', 10) - 1 + thumbs.length) % thumbs.length;
+              setActive(idx);
+            });
+            nextBtn.addEventListener('click', () => {
+              const idx = (parseInt(gallery.dataset.index || '0', 10) + 1) % thumbs.length;
+              setActive(idx);
+            });
+
+            // keyboard shortcuts when focus is inside gallery
+            gallery.addEventListener('keydown', (e) => {
+              if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const idx = (parseInt(gallery.dataset.index || '0', 10) + 1) % thumbs.length;
+                setActive(idx);
+              }
+              if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const idx = (parseInt(gallery.dataset.index || '0', 10) - 1 + thumbs.length) % thumbs.length;
+                setActive(idx);
+              }
+            });
+
+            // init
+            if (thumbs.length) setActive(0);
+          })();
+        </script>
+    </section>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-8 space-y-20">
+        <section>
+          <h2 class="text-3xl font-bold text-white mb-6">Overview</h2>
+          <div class="text-lg text-slate-400 leading-relaxed space-y-4">
+            <p>The Analytics Dashboard project aimed to solve the complexity of monitoring multiple high-traffic
+              infrastructure environments. The challenge was to condense massive datasets into actionable insights
+              without overwhelming the end-user.</p>
+            <p>Working closely with TechCorp's engineering team, I developed a modular design system that prioritized
+              hierarchy and scanability. The result is a highly customizable interface that has improved monitoring
+              efficiency by 40%.</p>
+          </div>
+        </section>
+        <section>
+          <h2 class="text-3xl font-bold text-white mb-10">Key Features</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex gap-5">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[#10B981]">query_stats</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">Real-time Stream</h3>
+                <p class="text-slate-400 leading-relaxed">Latency-free data updates with sub-second synchronization
+                  across all connected nodes.</p>
+              </div>
+            </div>
+            <div class="flex gap-5">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[#10B981]">layers</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">Modular Widgets</h3>
+                <p class="text-slate-400 leading-relaxed">Drag-and-drop interface components allowing users to create
+                  custom workspaces.</p>
+              </div>
+            </div>
+            <div class="flex gap-5">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[#10B981]">security</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">Advanced Security</h3>
+                <p class="text-slate-400 leading-relaxed">Granular permission controls and end-to-end encryption for all
+                  sensitive metrics.</p>
+              </div>
+            </div>
+            <div class="flex gap-5">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[#10B981]">auto_awesome</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">AI Forecasting</h3>
+                <p class="text-slate-400 leading-relaxed">Predictive analysis powered by machine learning to anticipate
+                  traffic spikes.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <aside class="lg:col-span-4 space-y-8">
+        <div class="glass-card rounded-[32px] p-8">
+          <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#10B981]">terminal</span>
+            Tech Stack
+          </h3>
+          <div class="space-y-6">
+            <div>
+              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Frontend</p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">React.js</span>
+                <span
+                  class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">TypeScript</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">Tailwind
+                  CSS</span>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Backend</p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">Node.js</span>
+                <span
+                  class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">GraphQL</span>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Database</p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">PostgreSQL</span>
+                <span
+                  class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-sm border border-slate-700">Redis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card rounded-[32px] p-8">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#10B981]">link</span>
+            Resources
+          </h3>
+          <div class="space-y-3">
+            <a class="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 hover:bg-[#10B981]/10 group transition-colors"
+              href="#">
+              <span class="text-slate-300 group-hover:text-white">Design Case Study</span>
+              <span
+                class="material-symbols-outlined text-sm text-slate-500 group-hover:text-[#10B981]">open_in_new</span>
+            </a>
+            <a class="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 hover:bg-[#10B981]/10 group transition-colors"
+              href="#">
+              <span class="text-slate-300 group-hover:text-white">API Documentation</span>
+              <span
+                class="material-symbols-outlined text-sm text-slate-500 group-hover:text-[#10B981]">open_in_new</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <section class="mt-32 relative">
+      <div class="absolute inset-0 bg-[#10B981]/5 blur-[120px] rounded-full"></div>
+      <div class="relative glass-card rounded-[40px] p-12 md:p-20 text-center overflow-hidden">
+        <div class="max-w-2xl mx-auto">
+          <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Interested in working together?</h2>
+          <p class="text-slate-400 text-lg mb-10">Whether you have a specific project in mind or just want to chat about
+            design, I'd love to hear from you.</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a class="inline-flex items-center justify-center px-10 py-5 rounded-2xl bg-white text-[#0F172A] font-bold text-lg transition-all hover:scale-105 hover:bg-[#10B981] hover:text-[#0F172A] glow-effect"
+              href="#">
+              Get in Touch
+            </a>
+            <a class="inline-flex items-center justify-center px-10 py-5 rounded-2xl border border-slate-700 text-white font-bold text-lg transition-all hover:bg-slate-800"
+              href="#">
+              View More Projects
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="py-12 border-t border-slate-800/50">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:row justify-between items-center gap-6">
+      <p class="text-slate-500 text-sm">© 2024 Product Designer &amp; UX Researcher</p>
+      <div class="flex gap-8">
+        <a class="text-slate-500 hover:text-[#10B981] transition-colors" href="#">LinkedIn</a>
+        <a class="text-slate-500 hover:text-[#10B981] transition-colors" href="#">Dribbble</a>
+        <a class="text-slate-500 hover:text-[#10B981] transition-colors" href="#">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

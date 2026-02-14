@@ -1,0 +1,67 @@
+package components
+
+import "github.com/Amirhos-esm/portfolio/models"
+
+templ getDuration(data *models.Experience) {
+	if data.EndDate == nil {
+		{ data.GetStartDate() } - Present
+	} else {
+		{ data.GetStartDate() } - { data.GetEndDate() }
+	}
+}
+
+templ GetExperience(data *models.Experience) {
+	<div class="relative pl-8 timeline-line">
+		<div
+			class="absolute left-[-5px] top-6 w-[12px] h-[12px] bg-primary rounded-full ring-4 ring-background-light dark:ring-background-dark"
+		></div>
+		<div
+			class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark shadow-sm"
+		>
+			<div class="flex flex-wrap justify-between items-start gap-4 mb-4">
+				<div>
+					<h3 class="text-2xl font-bold mb-1">{ data.JobTitle }</h3>
+					<p class="text-primary font-semibold flex items-center gap-2">
+						<span class="material-icons-round text-sm">business</span> { data.Company }
+					</p>
+				</div>
+				if data.EndDate == nil {
+					<span
+						class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-[10px] uppercase tracking-wider font-bold rounded-full"
+					>Current</span>
+				}
+			</div>
+			<div class="flex items-center gap-4 text-sm text-slate-500 mb-4">
+				<span class="flex items-center gap-1">
+					<span
+						class="material-icons-round text-sm"
+					>calendar_today</span> @getDuration(data)
+				</span>
+				<span class="flex items-center gap-1">
+					<span
+						class="material-icons-round text-sm"
+					>place</span> { data.Location }
+				</span>
+			</div>
+			<p class="text-slate-600 dark:text-slate-400">
+				{ data.Description }
+			</p>
+		</div>
+	</div>
+}
+
+templ ExperienceSection(data []models.Experience) {
+	<div class="max-w-4xl mx-auto">
+		<div class="text-center mb-16">
+			<h2 class="text-4xl font-bold mb-4 relative inline-block">
+				Work Experience
+				<span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+			</h2>
+		</div>
+		<div class="space-y-8">
+			for _, experience := range data {
+				@GetExperience(&experience)
+			}
+		</div>
+	</div>
+}

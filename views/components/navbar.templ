@@ -1,0 +1,53 @@
+package components
+
+templ NavigationBar() {
+	<nav
+		class="fixed top-0 w-full z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-border-dark"
+	>
+		<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+			<a class="text-xl font-bold tracking-tight" href="#">Portfolio</a>
+			<div class="hidden md:flex items-center space-gap-8 gap-8">
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#about">About</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#skills">Skills</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#experience">Experience</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#education">Education</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#projects">Projects</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#contact">Contact</a>
+				<div class="flex items-center gap-2">
+					<button id="theme-toggle" aria-label="Toggle theme" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-card-dark transition-colors">
+						<span id="theme-toggle-icon" class="material-icons-round text-lg">dark_mode</span>
+					</button>
+					<select id="theme-select" class="hidden sm:inline-block text-sm bg-transparent border border-slate-200 dark:border-border-dark rounded px-2 py-1">
+						<option value="system">System</option>
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+					</select>
+				</div>
+			</div>
+			<button id="mobile-menu-button" class="md:hidden p-2" aria-expanded="false" aria-controls="mobile-menu">
+				<span class="material-icons-round">menu</span>
+			</button>
+		</div>
+		<!-- mobile menu (hidden on desktop) -->
+		<div id="mobile-menu" class="md:hidden hidden bg-background-light/95 dark:bg-background-dark/95 border-t border-slate-200 dark:border-border-dark">
+			<div class="px-6 py-4 flex flex-col gap-3">
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#about">About</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#skills">Skills</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#experience">Experience</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#education">Education</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#projects">Projects</a>
+				<a class="nav-link text-sm font-medium hover:text-primary" href="#contact">Contact</a>
+				<div class="flex items-center gap-2 pt-2">
+					<button id="mobile-theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-card-dark transition-colors">
+						<span class="material-icons-round text-lg">dark_mode</span>
+					</button>
+					<select id="mobile-theme-select" class="text-sm bg-transparent border border-slate-200 dark:border-border-dark rounded px-2 py-1">
+						<option value="system">System</option>
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</nav>
+}

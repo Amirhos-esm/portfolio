@@ -1,0 +1,221 @@
+# string in RFC3339Nano format
+scalar Time
+scalar Map
+scalar Uint
+scalar StringArrayMap
+
+type Experience {
+  id: Uint!
+  jobTitle: String!
+  company: String!
+  location: String!
+  startDate: Time!
+  endDate: Time
+##  isWorking: Boolean!
+  description: String!
+}
+
+type SocialLink {
+  linkedin: String!
+  github: String!
+  telegram: String!
+}
+
+type PersonalInformation {
+  fullName: String!
+  professionalTitle: String!
+  bio: String!
+  email: String!
+  phone: String!
+  location: String!
+  socialLink: SocialLink!
+}
+
+type Skills {
+  technical: [String!]!
+  soft: [String!]!
+}
+
+type Education {
+  id: Uint!
+  degree: String!
+  school: String!
+  location: String!
+  startDate: Time!
+  endDate: Time
+ # stillStudying: Boolean!
+  description: String!
+}
+
+type ProjectFeature {
+  id: Uint!
+  title: String!
+  description: String!
+  icon: String!
+}
+
+type Project {
+  id: Uint!
+  title: String!
+  shortDescription: String!
+  description: String!
+  liveUrl: String
+  repositoryUrl: String
+  myRole: String!
+  duration: String!
+  client: String!
+   """
+  tags
+  """
+  tags: [String!]!
+   """
+  id of the image stored in the galleryImages field, the url can be constructed by /static/{project_id}/{id}
+  """
+  galleryImages: [String!]!
+   """
+   a hashmap like object map[string][]string 
+  """
+  techStack: StringArrayMap!
+  features: [ProjectFeature!]!
+}
+
+type Query {
+  personalInformation: PersonalInformation!
+  skills: Skills!
+  educations: [Education!]!
+  education(id: Uint!): Education!
+  experiences: [Experience!]!
+  experience(id: Uint!): Experience!
+  projects: [Project!]!
+  project(id: Uint!): Project!
+}
+
+input UpdatePersonalInformationInput {
+  fullName: String
+  professionalTitle: String
+  bio: String
+  email: String
+  phone: String
+  location: String
+  profileImage: String
+  socialLink: UpdateSocialLinkInput
+}
+
+input UpdateSocialLinkInput {
+  linkedin: String
+  github: String
+  telegram: String
+}
+
+input UpdateExperienceInput {
+  jobTitle: String
+  company: String
+  location: String
+  startDate: Time
+  endDate: Time
+#  isWorking: Boolean
+  description: String
+}
+
+input UpdateEducationInput {
+  degree: String
+  school: String
+  fieldOfStudy: String
+  startDate: Time
+  endDate: Time
+  description: String
+}
+
+
+input SkillsPatchInput {
+  technical: [String!]
+  soft: [String!]
+}
+
+input ProjectBasicUpdateInput {
+  title: String
+  shortDescription: String
+  description: String
+  liveUrl: String
+  repositoryUrl: String
+  myRole: String
+  duration: String
+  client: String
+}
+input StringListOpsInput {
+  add: [String!]
+  remove: [String!]
+  replace: [String!]
+}
+
+input TechStackUpdateInput {
+  key: String!
+  ops: StringListOpsInput!
+}
+
+input CreateProjectFeatureInput {
+  title: String!
+  description: String!
+  icon: String!
+}
+input UpdateProjectFeatureInput {
+  title: String
+  description: String
+  icon: String
+}
+
+
+
+type Mutation {
+  updatePersonalInformation(
+    input: UpdatePersonalInformationInput!
+  ): PersonalInformation!
+  updateExperience(id: Uint!, input: UpdateExperienceInput!): Experience!
+  deleteExperience(id: Uint!): Boolean!
+
+
+  updateEducation(id: Uint!, input: UpdateEducationInput!): Education!
+  deleteEducation(id: Uint!): Boolean!
+
+
+  addTechnicalSkill(userId: ID!, skill: String!): Skills!
+  removeTechnicalSkill(userId: ID!, skill: String!): Skills!
+  addSoftSkill(userId: ID!, skill: String!): Skills!
+  removeSoftSkill(userId: ID!, skill: String!): Skills!
+
+   updateProjectBasic(
+    projectId: Uint!
+    input: ProjectBasicUpdateInput!
+  ): Project!
+   updateProjectTags(
+    projectId: Uint!
+    ops: StringListOpsInput!
+  ): Project!
+
+  updateProjectTechStack(
+    projectId: Uint!
+    updates: [TechStackUpdateInput!]!
+  ): Project!
+
+    addProjectFeature(
+    projectId: Uint!
+    input: CreateProjectFeatureInput!
+  ): ProjectFeature!
+
+  updateProjectFeature(
+    projectId: Uint!
+    featureId: Uint!
+    input: UpdateProjectFeatureInput!
+  ): ProjectFeature!
+
+    deleteProjectFeature(
+    projectId: Uint!
+    featureId: Uint!
+  ): Boolean!
+
+   deleteProjectGallery(
+    projectId: Uint!
+    imageId: String!
+  ): Boolean!
+
+}

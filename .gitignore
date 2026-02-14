@@ -1,0 +1,11 @@
+/views/components/*.go
+/views/layouts/*.go
+/views/pages/*.go
+
+.air.toml
+tmp/
+
+static/project
+
+data.json
+

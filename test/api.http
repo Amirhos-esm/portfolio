@@ -1,0 +1,13 @@
+
+### Define variables
+@base_url = http://127.0.0.1:8080
+
+
+
+### 
+# set stream enable/disable . enable bool query param
+POST {{base_url}}/login
+
+{
+    "password": "demo"
+}

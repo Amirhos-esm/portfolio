@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+      <title>Amirhos_esm</title>
+      <link href="https://fonts.googleapis.com" rel="preconnect" />
+      <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+         rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+      <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+      <script>
+         tailwind.config = {
+             darkMode: "class",
+             theme: {
+                 extend: {
+                     colors: {
+                         primary: "#10b981",
+                         "background-light": "#ffffff",
+                         "background-dark": "#0a0a0a",
+                         "card-dark": "#141414",
+                         "border-dark": "#262626",
+                     },
+                     fontFamily: {
+                         sans: ["Inter", "sans-serif"],
+                     },
+                     borderRadius: {
+                         DEFAULT: "0.75rem",
+                     },
+                 },
+             },
+         };
+      </script>
+      <style>
+         body {
+         font-family: 'Inter', sans-serif;
+         }
+         .timeline-line::before {
+         content: '';
+         position: absolute;
+         left: 0;
+         top: 0;
+         bottom: 0;
+         width: 2px;
+         background: #262626;
+         }
+         .nav-link {
+         transition: color 0.2s ease;
+         }
+      </style>
+   </head>
+   <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 selection:bg-primary/30">
+      <nav
+         class="fixed top-0 w-full z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-border-dark">
+         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a class="text-xl font-bold tracking-tight" href="#">Portfolio</a>
+            <div class="hidden md:flex items-center space-gap-8 gap-8">
+               <a class="nav-link text-sm font-medium hover:text-primary" href="#about">About</a>
+               <a class="nav-link text-sm font-medium hover:text-primary" href="#skills">Skills</a>
+               <a class="nav-link text-sm font-medium hover:text-primary" href="#experience">Experience</a>
+               <a class="nav-link text-sm font-medium hover:text-primary" href="#education">Education</a>
+               <a class="nav-link text-sm font-medium hover:text-primary" href="#projects">Projects</a>
+               <a class="nav-link text-sm font-medium hover:text-primary" href="#contact">Contact</a>
+               <button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-card-dark transition-colors">
+               <span class="material-icons-round text-lg">settings</span>
+               </button>
+            </div>
+            <button class="md:hidden p-2">
+            <span class="material-icons-round">menu</span>
+            </button>
+         </div>
+      </nav>
+      <section class="pt-40 pb-20 px-6">
+         <div class="max-w-3xl mx-auto text-center">
+            <div class="relative inline-block mb-8">
+               <div
+                  class="w-32 h-32 rounded-full border-4 border-slate-200 dark:border-border-dark overflow-hidden mx-auto">
+                  <img alt="Jane Doe Profile" class="w-full h-full object-cover"
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtM81Q7bNnH9N_Yb_3my3WLo_NX8Do7MNXaTh1LtcvV8XtnGvx2tqiHwbFuoFzXgJsp9dHBv-tiKXv52KbO2awTAyNx9bhkGKS28pc3WlxcwSgBxWSzlsqQdRFreGK97lvhaV1A-7RWteRHjT70UryFb6lsnkomw66TtXwqWvOgmZc7iLmFk2bk30049N5eRHCuN-WD5PLjD_DkMb-1kPWcRojxdacz-GEmTicVlBjm31HdJvoZ5wt2b_CnTRJjTuYvooRRd2l8BU" />
+               </div>
+               <div
+                  class="absolute bottom-1 right-2 w-6 h-6 bg-slate-800 dark:bg-slate-700 rounded-full border-2 border-background-light dark:border-background-dark">
+               </div>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-tight">Hi, I'm Jane Doe</h1>
+            <h2 class="text-xl md:text-2xl font-semibold text-primary mb-8">Product Designer &amp; UX Researcher</h2>
+            <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+               A passionate product designer creating intuitive and beautiful user experiences. I specialize in user
+               research, prototyping, and building design systems that scale.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+               <a class="w-full sm:w-auto px-10 py-4 bg-primary text-white font-semibold rounded-full hover:opacity-90 transition-opacity"
+                  href="#projects">
+               View Portfolio
+               </a>
+               <button
+                  class="w-full sm:w-auto px-10 py-4 flex items-center justify-center gap-2 border border-slate-200 dark:border-border-dark font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-card-dark transition-colors">
+               <span class="material-icons-round text-sm">download</span>
+               Download Resume
+               </button>
+            </div>
+            <div class="mt-20 animate-bounce">
+               <span class="material-icons-round opacity-40">expand_more</span>
+            </div>
+         </div>
+      </section>
+      <section class="py-24 px-6 border-t border-slate-100 dark:border-border-dark" id="about">
+         <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 relative inline-block">
+               About Me
+               <span class="absolute -bottom-3 left-0 w-12 h-1 bg-primary"></span>
+            </h2>
+            <div class="grid md:grid-cols-2 gap-16">
+               <div>
+                  <h3 class="text-xl font-bold mb-4">Get to know me</h3>
+                  <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                     A passionate product designer creating intuitive and beautiful user experiences. I specialize in
+                     user research, prototyping, and building design systems that scale.
+                  </p>
+               </div>
+               <div class="space-y-8">
+                  <div>
+                     <h3 class="text-xl font-bold mb-4">Contact Information</h3>
+                     <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400">
+                           <span class="material-icons-round text-primary text-sm">location_on</span>
+                           <span>San Francisco, CA</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400">
+                           <span class="material-icons-round text-primary text-sm">email</span>
+                           <span>jane.doe@example.com</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400">
+                           <span class="material-icons-round text-primary text-sm">phone</span>
+                           <span>+1 (555) 123-4567</span>
+                        </div>
+                     </div>
+                  </div>
+                  <div>
+                     <h3 class="text-xl font-bold mb-4">Connect with me</h3>
+                     <div class="flex gap-3">
+                        <a href="https://linkedin.com/in/janedoe" target="_blank" rel="noopener noreferrer"
+                           class="w-10 h-10 rounded-full bg-gray-800 bg-muted  hover:bg-primary hover:text-primary-foreground transition-colors flex items-center justify-center"
+                           aria-label="LinkedIn">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" class="lucide lucide-linkedin w-5 h-5">
+                              <path
+                                 d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                              </path>
+                              <rect width="4" height="12" x="2" y="9"></rect>
+                              <circle cx="4" cy="4" r="2"></circle>
+                           </svg>
+                        </a>
+                        <a href="https://github.com/janedoe" target="_blank" rel="noopener noreferrer"
+                           class="w-10 h-10 rounded-full bg-gray-800 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors flex items-center justify-center"
+                           aria-label="GitHub">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" class="lucide lucide-github w-5 h-5">
+                              <path
+                                 d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4">
+                              </path>
+                              <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                           </svg>
+                        </a>
+                        <a href="https://twitter.com/janedoe" target="_blank" rel="noopener noreferrer"
+                           class="w-10 h-10 rounded-full bg-gray-800 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors flex items-center justify-center"
+                           aria-label="Telegram">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"
+                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" class="lucide lucide-github w-5 h-5">
+                              <path class="cls-1" d="M40.83,8.48c1.14,0,2,1,1.54,2.86l-5.58,26.3c-.39,1.87-1.52,2.32-3.08,1.45L20.4,29.26a.4.4,0,0,1,0-.65L35.77,14.73c.7-.62-.15-.92-1.07-.36L15.41,26.54a.46.46,0,0,1-.4.05L6.82,24C5,23.47,5,22.22,7.23,21.33L40,8.69a2.16,2.16,0,0,1,.83-.21Z"/>
+                           </svg>
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="py-24 px-6 bg-slate-50 dark:bg-background-dark" id="skills">
+         <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+               <h2 class="text-4xl font-bold mb-4 relative inline-block">
+                  My Expertise
+                  <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+               </h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+               <div class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                  <div class="flex items-center gap-3 mb-8">
+                     <div class="w-1 h-6 bg-primary"></div>
+                     <h3 class="text-2xl font-bold">Technical Skills</h3>
+                  </div>
+                  <div class="flex flex-wrap gap-3">
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">JavaScript
+                     (ES6+)</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">React &amp;
+                     Next.js</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">Node.js</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">HTML5 &amp;
+                     CSS3</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">Tailwind CSS</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">Figma</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">C++</span>
+                     <span class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg">C#</span>
+                  </div>
+               </div>
+               <div class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                  <div class="flex items-center gap-3 mb-8">
+                     <div class="w-1 h-6 bg-primary"></div>
+                     <h3 class="text-2xl font-bold">Soft Skills</h3>
+                  </div>
+                  <div class="flex flex-wrap gap-3">
+                     <span
+                        class="px-4 py-2 bg-transparent border border-slate-200 dark:border-border-dark text-slate-600 dark:text-slate-400 text-sm font-medium rounded-lg">Problem
+                     Solving</span>
+                     <span
+                        class="px-4 py-2 bg-transparent border border-slate-200 dark:border-border-dark text-slate-600 dark:text-slate-400 text-sm font-medium rounded-lg">Team
+                     Collaboration</span>
+                     <span
+                        class="px-4 py-2 bg-transparent border border-slate-200 dark:border-border-dark text-slate-600 dark:text-slate-400 text-sm font-medium rounded-lg">Communication</span>
+                     <span
+                        class="px-4 py-2 bg-transparent border border-slate-200 dark:border-border-dark text-slate-600 dark:text-slate-400 text-sm font-medium rounded-lg">Agile
+                     Methodologies</span>
+                     <span
+                        class="px-4 py-2 bg-transparent border border-slate-200 dark:border-border-dark text-slate-600 dark:text-slate-400 text-sm font-medium rounded-lg">User
+                     Empathy</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="py-24 px-6" id="experience">
+         <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+               <h2 class="text-4xl font-bold mb-4 relative inline-block">
+                  Work Experience
+                  <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+               </h2>
+            </div>
+            <div class="space-y-8">
+               <div class="relative pl-8 timeline-line">
+                  <div
+                     class="absolute left-[-5px] top-6 w-[12px] h-[12px] bg-primary rounded-full ring-4 ring-background-light dark:ring-background-dark">
+                  </div>
+                  <div
+                     class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark shadow-sm">
+                     <div class="flex flex-wrap justify-between items-start gap-4 mb-4">
+                        <div>
+                           <h3 class="text-2xl font-bold mb-1">Senior Product Designer</h3>
+                           <p class="text-primary font-semibold flex items-center gap-2">
+                              <span class="material-icons-round text-sm">business</span> Innovate Inc
+                           </p>
+                        </div>
+                        <span
+                           class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-[10px] uppercase tracking-wider font-bold rounded-full">Current</span>
+                     </div>
+                     <div class="flex items-center gap-4 text-sm text-slate-500 mb-4">
+                        <span class="flex items-center gap-1"><span
+                           class="material-icons-round text-sm">calendar_today</span> Jan 2020 - Present</span>
+                        <span class="flex items-center gap-1"><span
+                           class="material-icons-round text-sm">place</span> San Francisco, CA</span>
+                     </div>
+                     <p class="text-slate-600 dark:text-slate-400">Lead design initiatives for enterprise SaaS
+                        products, collaborating with cross-functional teams to deliver user-centered solutions.
+                     </p>
+                  </div>
+               </div>
+               <div class="relative pl-8 timeline-line">
+                  <div
+                     class="absolute left-[-5px] top-6 w-[12px] h-[12px] bg-primary rounded-full ring-4 ring-background-light dark:ring-background-dark">
+                  </div>
+                  <div
+                     class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                     <div class="mb-4">
+                        <h3 class="text-2xl font-bold mb-1">UX/UI Designer</h3>
+                        <p class="text-primary font-semibold flex items-center gap-2">
+                           <span class="material-icons-round text-sm">business</span> Creative Solutions
+                        </p>
+                     </div>
+                     <div class="flex items-center gap-4 text-sm text-slate-500 mb-4">
+                        <span class="flex items-center gap-1"><span
+                           class="material-icons-round text-sm">calendar_today</span> Jun 2017 - Dec
+                        2019</span>
+                        <span class="flex items-center gap-1"><span
+                           class="material-icons-round text-sm">place</span> New York, NY</span>
+                     </div>
+                     <p class="text-slate-600 dark:text-slate-400">Designed mobile and web applications for various
+                        clients, conducting user research and usability testing.
+                     </p>
+                  </div>
+               </div>
+               <div class="relative pl-8 timeline-line">
+                  <div
+                     class="absolute left-[-5px] top-6 w-[12px] h-[12px] bg-primary rounded-full ring-4 ring-background-light dark:ring-background-dark">
+                  </div>
+                  <div
+                     class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                     <div class="mb-4">
+                        <h3 class="text-2xl font-bold mb-1">Junior Web Designer</h3>
+                        <p class="text-primary font-semibold flex items-center gap-2">
+                           <span class="material-icons-round text-sm">business</span> Tech StartUp LLC
+                        </p>
+                     </div>
+                     <div class="flex items-center gap-4 text-sm text-slate-500 mb-4">
+                        <span class="flex items-center gap-1"><span
+                           class="material-icons-round text-sm">calendar_today</span> May 2015 - May
+                        2017</span>
+                        <span class="flex items-center gap-1"><span
+                           class="material-icons-round text-sm">place</span> Austin, TX</span>
+                     </div>
+                     <p class="text-slate-600 dark:text-slate-400">Created responsive website designs and
+                        collaborated with developers to implement design systems.
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="py-24 px-6 bg-slate-50 dark:bg-background-dark" id="education">
+         <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+               <h2 class="text-4xl font-bold mb-4 relative inline-block">
+                  Education
+                  <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+               </h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+               <div
+                  class="p-10 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                  <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                     <span class="material-icons-round text-primary">school</span>
+                  </div>
+                  <h3 class="text-2xl font-bold mb-2">Master of Science in Computer Science</h3>
+                  <p class="text-primary font-semibold mb-4">University of Technology</p>
+                  <div class="flex items-center gap-4 text-sm text-slate-500 mb-6">
+                     <span class="flex items-center gap-1"><span
+                        class="material-icons-round text-sm">calendar_today</span> 2020 - 2022</span>
+                     <span class="flex items-center gap-1"><span class="material-icons-round text-sm">place</span>
+                     Boston, MA</span>
+                  </div>
+                  <p class="text-slate-600 dark:text-slate-400">Specialized in Human-Computer Interaction</p>
+               </div>
+               <div
+                  class="p-10 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                  <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                     <span class="material-icons-round text-primary">school</span>
+                  </div>
+                  <h3 class="text-2xl font-bold mb-2">Bachelor of Arts in Digital Media</h3>
+                  <p class="text-primary font-semibold mb-4">State College of Design</p>
+                  <div class="flex items-center gap-4 text-sm text-slate-500 mb-6">
+                     <span class="flex items-center gap-1"><span
+                        class="material-icons-round text-sm">calendar_today</span> 2016 - 2020</span>
+                     <span class="flex items-center gap-1"><span class="material-icons-round text-sm">place</span>
+                     Los Angeles, CA</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="py-24 px-6" id="projects">
+         <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+               <h2 class="text-4xl font-bold mb-4 relative inline-block">
+                  Featured Projects
+                  <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+               </h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10">
+               <div
+                  class="group rounded-2xl overflow-hidden bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                  <div class="aspect-video overflow-hidden">
+                     <img alt="Analytics Dashboard"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0RzJRE6tB7FhpOCe3xzm-whLyERbYA3uhuKnUYCEE_frcSBxNqyQjf7rVHk8qpqajyK1eoTpEcXOrg0FQtdJjXafDYqXsCdNB9hoQ359vDY2upgDBZ3h1UvM7bJ80iwlDYP7msJXH1yYagF3jd03W16MDfekdGXzjBwlKnl9gHdBLNfcStPq4lTx0T1NFuVAY7BdoqEuHeuuYie6p1_qozI9i0UpBzAaW3JnYsU8_LWndStE49BD3gDHKKvRGO_SJ-daNl1hION0" />
+                  </div>
+                  <div class="p-8">
+                     <h3 class="text-2xl font-bold mb-3">Analytics Dashboard</h3>
+                     <p class="text-slate-600 dark:text-slate-400 mb-6">A comprehensive web platform for data
+                        visualization and business intelligence.
+                     </p>
+                     <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-medium rounded-full">Web
+                        platform</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-medium rounded-full">Data
+                        Visualization</span>
+                        <span
+                           class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-medium rounded-full">React</span>
+                     </div>
+                     <div class="flex flex-wrap items-center gap-6">
+                        <button
+                           class="flex items-center gap-2 bg-white dark:bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold shadow hover:bg-slate-50 transition-colors">
+                        View Details <span class="material-icons-round text-base">arrow_right_alt</span>
+                        </button>
+                        <a class="flex items-center gap-1 text-sm font-medium hover:text-primary" href="#"><span
+                           class="material-icons-round text-base">launch</span> Live</a>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" data-slot="button"
+                           class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" class="lucide lucide-github w-4 h-4 mr-2">
+                              <path
+                                 d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4">
+                              </path>
+                              <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                           </svg>
+                           GitHub
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="py-24 px-6 bg-slate-50 dark:bg-background-dark/50" id="contact">
+         <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+               <h2 class="text-4xl font-bold mb-4 relative inline-block">
+                  Get in Touch
+                  <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-primary"></span>
+               </h2>
+               <p class="text-slate-600 dark:text-slate-400 mt-4">I'd love to hear from you. Let's work together.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-12">
+               <div
+                  class="p-10 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                  <form class="space-y-6">
+                     <div>
+                        <label class="block text-sm font-bold mb-2">Full Name</label>
+                        <input
+                           class="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary"
+                           placeholder="John Doe" type="text" />
+                     </div>
+                     <div>
+                        <label class="block text-sm font-bold mb-2">Email Address</label>
+                        <input
+                           class="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary"
+                           placeholder="john@example.com" type="email" />
+                     </div>
+                     <div>
+                        <label class="block text-sm font-bold mb-2">Your Message</label>
+                        <textarea
+                           class="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-xl px-4 py-3 focus:ring-primary focus:border-primary"
+                           placeholder="Tell me about your project..." rows="4"></textarea>
+                     </div>
+                     <button
+                        class="w-full py-4 bg-primary text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+                        type="submit">
+                     <span class="material-icons-round text-sm">send</span> Send Message
+                     </button>
+                  </form>
+               </div>
+               <div class="space-y-8">
+                  <div
+                     class="p-8 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-border-dark">
+                     <h3 class="text-xl font-bold mb-6">Contact Information</h3>
+                     <div class="p-4 rounded-xl bg-slate-50 dark:bg-background-dark flex items-center gap-4">
+                        <div
+                           class="w-10 h-10 rounded-full bg-slate-100 dark:bg-card-dark flex items-center justify-center">
+                           <span class="material-icons-round text-primary">email</span>
+                        </div>
+                        <div>
+                           <p class="text-xs text-slate-500 uppercase tracking-wider font-bold">Email me at</p>
+                           <p class="font-semibold">jane.doe@example.com</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <footer class="py-12 border-t border-slate-100 dark:border-border-dark">
+         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-center items-center gap-6">
+            <p class="text-slate-500 text-sm">© 2026 Amirhossein Esmaeilzade. All rights reserved.</p>
+         </div>
+      </footer>
+      <script>
+         // Simple dark mode toggle functionality
+         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+             document.documentElement.classList.add('dark');
+         }
+         // Add smooth interaction for navigation
+         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+             anchor.addEventListener('click', function (e) {
+                 e.preventDefault();
+                 document.querySelector(this.getAttribute('href')).scrollIntoView({
+                     behavior: 'smooth'
+                 });
+             });
+         });
+      </script>
+   </body>
+</html>
