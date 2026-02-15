@@ -18,6 +18,8 @@ cp -r out ../out
 
 echo "==> Building Go binary"
 cd ../..
-go build -o output
+go build -o output/portfolio
 
 echo "==> Build completed successfully"
+
+cp static output
