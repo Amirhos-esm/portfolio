@@ -85,8 +85,6 @@ func (app *Application) newGraphQLServer() gin.HandlerFunc {
 	}
 }
 
-
-
 func (app *Application) registerRoutes(r *gin.Engine) {
 
 	r.Use(CORSMiddleware())
@@ -95,7 +93,8 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 			playground.Handler("GraphQL", "/graphql"),
 		))
 	}
-
+	//init admin panel
+	initAdminPanel(r)
 	// public routes
 	r.GET("/", app.LandingPageHandler)
 	r.GET("/projects/:id", app.ProjectHandler)
