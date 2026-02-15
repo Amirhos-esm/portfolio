@@ -2,6 +2,13 @@ package components
 
 import "github.com/Amirhos-esm/portfolio/models"
 
+func getHeroAddress(data *models.PersonalInformation)string{
+	if data.ProfileImage == "" {
+		return  "/static/image/profile-image-fallback.png"
+	}
+	return data.ProfileImage
+}
+
 templ Hero(data *models.PersonalInformation) {
 	<div class="max-w-3xl mx-auto text-center">
 		<div class="relative inline-block mb-8">
@@ -10,7 +17,7 @@ templ Hero(data *models.PersonalInformation) {
 			>
 				<img
 					class="w-full h-full object-cover"
-					src="/static/image/profile-image.png"
+					src={getHeroAddress(data)}
 				/>
 			</div>
 			<div
@@ -29,7 +36,7 @@ templ Hero(data *models.PersonalInformation) {
 			>
 				View Portfolio
 			</a>
-			<a href="/resume.pdf" class="w-full sm:w-auto px-10 py-4 flex items-center justify-center gap-2 border border-slate-200 dark:border-border-dark font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-card-dark transition-colors">
+			<a href="/static/resume.pdf" class="w-full sm:w-auto px-10 py-4 flex items-center justify-center gap-2 border border-slate-200 dark:border-border-dark font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-card-dark transition-colors">
 				<span class="material-icons-round text-sm">download</span>
 				Download Resume
 			</a>

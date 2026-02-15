@@ -69,18 +69,18 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddEducation              func(childComplexity int, input models.UpdateEducationInput) int
-		AddExperience             func(childComplexity int, input models.UpdateExperienceInput) int
-		AddProject                func(childComplexity int, input models.ProjectBasicUpdateInput) int
 		AddProjectFeature         func(childComplexity int, projectID uint, input models.CreateProjectFeatureInput) int
-		AddSoftSkill              func(childComplexity int, userID string, skill string) int
-		AddTechnicalSkill         func(childComplexity int, userID string, skill string) int
+		AddSoftSkill              func(childComplexity int, skill string) int
+		AddTechnicalSkill         func(childComplexity int, skill string) int
+		CreateEducation           func(childComplexity int, input models.UpdateEducationInput) int
+		CreateExperience          func(childComplexity int, input models.UpdateExperienceInput) int
+		CreateProject             func(childComplexity int, input models.ProjectBasicUpdateInput) int
 		DeleteEducation           func(childComplexity int, id uint) int
 		DeleteExperience          func(childComplexity int, id uint) int
 		DeleteProjectFeature      func(childComplexity int, projectID uint, featureID uint) int
 		DeleteProjectGallery      func(childComplexity int, projectID uint, imageID string) int
-		RemoveSoftSkill           func(childComplexity int, userID string, skill string) int
-		RemoveTechnicalSkill      func(childComplexity int, userID string, skill string) int
+		RemoveSoftSkill           func(childComplexity int, skill string) int
+		RemoveTechnicalSkill      func(childComplexity int, skill string) int
 		UpdateEducation           func(childComplexity int, id uint, input models.UpdateEducationInput) int
 		UpdateExperience          func(childComplexity int, id uint, input models.UpdateExperienceInput) int
 		UpdatePersonalInformation func(childComplexity int, input models.UpdatePersonalInformationInput) int
@@ -97,6 +97,7 @@ type ComplexityRoot struct {
 		Location          func(childComplexity int) int
 		Phone             func(childComplexity int) int
 		ProfessionalTitle func(childComplexity int) int
+		ProfileImage      func(childComplexity int) int
 		SocialLink        func(childComplexity int) int
 	}
 
@@ -148,17 +149,17 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	UpdatePersonalInformation(ctx context.Context, input models.UpdatePersonalInformationInput) (*models.PersonalInformation, error)
-	AddExperience(ctx context.Context, input models.UpdateExperienceInput) (*models.Experience, error)
+	CreateExperience(ctx context.Context, input models.UpdateExperienceInput) (*models.Experience, error)
 	UpdateExperience(ctx context.Context, id uint, input models.UpdateExperienceInput) (*models.Experience, error)
 	DeleteExperience(ctx context.Context, id uint) (bool, error)
-	AddEducation(ctx context.Context, input models.UpdateEducationInput) (*models.Education, error)
+	CreateEducation(ctx context.Context, input models.UpdateEducationInput) (*models.Education, error)
 	UpdateEducation(ctx context.Context, id uint, input models.UpdateEducationInput) (*models.Education, error)
 	DeleteEducation(ctx context.Context, id uint) (bool, error)
-	AddTechnicalSkill(ctx context.Context, userID string, skill string) (*models.Skills, error)
-	RemoveTechnicalSkill(ctx context.Context, userID string, skill string) (*models.Skills, error)
-	AddSoftSkill(ctx context.Context, userID string, skill string) (*models.Skills, error)
-	RemoveSoftSkill(ctx context.Context, userID string, skill string) (*models.Skills, error)
-	AddProject(ctx context.Context, input models.ProjectBasicUpdateInput) (*models.Project, error)
+	AddTechnicalSkill(ctx context.Context, skill string) (*models.Skills, error)
+	RemoveTechnicalSkill(ctx context.Context, skill string) (*models.Skills, error)
+	AddSoftSkill(ctx context.Context, skill string) (*models.Skills, error)
+	RemoveSoftSkill(ctx context.Context, skill string) (*models.Skills, error)
+	CreateProject(ctx context.Context, input models.ProjectBasicUpdateInput) (*models.Project, error)
 	UpdateProjectBasic(ctx context.Context, projectID uint, input models.ProjectBasicUpdateInput) (*models.Project, error)
 	UpdateProjectTags(ctx context.Context, projectID uint, ops models.StringListOpsInput) (*models.Project, error)
 	UpdateProjectTechStack(ctx context.Context, projectID uint, updates []*models.TechStackUpdateInput) (*models.Project, error)
@@ -283,39 +284,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Experience.StartDate(childComplexity), true
 
-	case "Mutation.addEducation":
-		if e.complexity.Mutation.AddEducation == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_addEducation_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.AddEducation(childComplexity, args["input"].(models.UpdateEducationInput)), true
-	case "Mutation.addExperience":
-		if e.complexity.Mutation.AddExperience == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_addExperience_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.AddExperience(childComplexity, args["input"].(models.UpdateExperienceInput)), true
-	case "Mutation.addProject":
-		if e.complexity.Mutation.AddProject == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_addProject_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.AddProject(childComplexity, args["input"].(models.ProjectBasicUpdateInput)), true
 	case "Mutation.addProjectFeature":
 		if e.complexity.Mutation.AddProjectFeature == nil {
 			break
@@ -337,7 +305,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.AddSoftSkill(childComplexity, args["userId"].(string), args["skill"].(string)), true
+		return e.complexity.Mutation.AddSoftSkill(childComplexity, args["skill"].(string)), true
 	case "Mutation.addTechnicalSkill":
 		if e.complexity.Mutation.AddTechnicalSkill == nil {
 			break
@@ -348,7 +316,40 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.AddTechnicalSkill(childComplexity, args["userId"].(string), args["skill"].(string)), true
+		return e.complexity.Mutation.AddTechnicalSkill(childComplexity, args["skill"].(string)), true
+	case "Mutation.createEducation":
+		if e.complexity.Mutation.CreateEducation == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createEducation_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateEducation(childComplexity, args["input"].(models.UpdateEducationInput)), true
+	case "Mutation.createExperience":
+		if e.complexity.Mutation.CreateExperience == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createExperience_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateExperience(childComplexity, args["input"].(models.UpdateExperienceInput)), true
+	case "Mutation.createProject":
+		if e.complexity.Mutation.CreateProject == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createProject_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateProject(childComplexity, args["input"].(models.ProjectBasicUpdateInput)), true
 	case "Mutation.deleteEducation":
 		if e.complexity.Mutation.DeleteEducation == nil {
 			break
@@ -403,7 +404,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.RemoveSoftSkill(childComplexity, args["userId"].(string), args["skill"].(string)), true
+		return e.complexity.Mutation.RemoveSoftSkill(childComplexity, args["skill"].(string)), true
 	case "Mutation.removeTechnicalSkill":
 		if e.complexity.Mutation.RemoveTechnicalSkill == nil {
 			break
@@ -414,7 +415,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.RemoveTechnicalSkill(childComplexity, args["userId"].(string), args["skill"].(string)), true
+		return e.complexity.Mutation.RemoveTechnicalSkill(childComplexity, args["skill"].(string)), true
 	case "Mutation.updateEducation":
 		if e.complexity.Mutation.UpdateEducation == nil {
 			break
@@ -529,6 +530,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.PersonalInformation.ProfessionalTitle(childComplexity), true
+	case "PersonalInformation.profileImage":
+		if e.complexity.PersonalInformation.ProfileImage == nil {
+			break
+		}
+
+		return e.complexity.PersonalInformation.ProfileImage(childComplexity), true
 	case "PersonalInformation.socialLink":
 		if e.complexity.PersonalInformation.SocialLink == nil {
 			break
@@ -870,28 +877,6 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Mutation_addEducation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateEducationInput2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐUpdateEducationInput)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_addExperience_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateExperienceInput2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐUpdateExperienceInput)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_addProjectFeature_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -908,10 +893,32 @@ func (ec *executionContext) field_Mutation_addProjectFeature_args(ctx context.Co
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_addProject_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+func (ec *executionContext) field_Mutation_addSoftSkill_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNProjectBasicUpdateInput2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐProjectBasicUpdateInput)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
+	if err != nil {
+		return nil, err
+	}
+	args["skill"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_addTechnicalSkill_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
+	if err != nil {
+		return nil, err
+	}
+	args["skill"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createEducation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateEducationInput2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐUpdateEducationInput)
 	if err != nil {
 		return nil, err
 	}
@@ -919,35 +926,25 @@ func (ec *executionContext) field_Mutation_addProject_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_addSoftSkill_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+func (ec *executionContext) field_Mutation_createExperience_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "userId", ec.unmarshalNID2string)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateExperienceInput2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐUpdateExperienceInput)
 	if err != nil {
 		return nil, err
 	}
-	args["userId"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
-	if err != nil {
-		return nil, err
-	}
-	args["skill"] = arg1
+	args["input"] = arg0
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_addTechnicalSkill_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+func (ec *executionContext) field_Mutation_createProject_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "userId", ec.unmarshalNID2string)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNProjectBasicUpdateInput2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐProjectBasicUpdateInput)
 	if err != nil {
 		return nil, err
 	}
-	args["userId"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
-	if err != nil {
-		return nil, err
-	}
-	args["skill"] = arg1
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -1008,32 +1005,22 @@ func (ec *executionContext) field_Mutation_deleteProjectGallery_args(ctx context
 func (ec *executionContext) field_Mutation_removeSoftSkill_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "userId", ec.unmarshalNID2string)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
-	args["userId"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
-	if err != nil {
-		return nil, err
-	}
-	args["skill"] = arg1
+	args["skill"] = arg0
 	return args, nil
 }
 
 func (ec *executionContext) field_Mutation_removeTechnicalSkill_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "userId", ec.unmarshalNID2string)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
 	if err != nil {
 		return nil, err
 	}
-	args["userId"] = arg0
-	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "skill", ec.unmarshalNString2string)
-	if err != nil {
-		return nil, err
-	}
-	args["skill"] = arg1
+	args["skill"] = arg0
 	return args, nil
 }
 
@@ -1680,6 +1667,8 @@ func (ec *executionContext) fieldContext_Mutation_updatePersonalInformation(ctx 
 				return ec.fieldContext_PersonalInformation_fullName(ctx, field)
 			case "professionalTitle":
 				return ec.fieldContext_PersonalInformation_professionalTitle(ctx, field)
+			case "profileImage":
+				return ec.fieldContext_PersonalInformation_profileImage(ctx, field)
 			case "bio":
 				return ec.fieldContext_PersonalInformation_bio(ctx, field)
 			case "email":
@@ -1708,15 +1697,15 @@ func (ec *executionContext) fieldContext_Mutation_updatePersonalInformation(ctx 
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_addExperience(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Mutation_createExperience(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
-		ec.fieldContext_Mutation_addExperience,
+		ec.fieldContext_Mutation_createExperience,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().AddExperience(ctx, fc.Args["input"].(models.UpdateExperienceInput))
+			return ec.resolvers.Mutation().CreateExperience(ctx, fc.Args["input"].(models.UpdateExperienceInput))
 		},
 		nil,
 		ec.marshalNExperience2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐExperience,
@@ -1725,7 +1714,7 @@ func (ec *executionContext) _Mutation_addExperience(ctx context.Context, field g
 	)
 }
 
-func (ec *executionContext) fieldContext_Mutation_addExperience(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_createExperience(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -1758,7 +1747,7 @@ func (ec *executionContext) fieldContext_Mutation_addExperience(ctx context.Cont
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_addExperience_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_createExperience_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -1863,15 +1852,15 @@ func (ec *executionContext) fieldContext_Mutation_deleteExperience(ctx context.C
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_addEducation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Mutation_createEducation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
-		ec.fieldContext_Mutation_addEducation,
+		ec.fieldContext_Mutation_createEducation,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().AddEducation(ctx, fc.Args["input"].(models.UpdateEducationInput))
+			return ec.resolvers.Mutation().CreateEducation(ctx, fc.Args["input"].(models.UpdateEducationInput))
 		},
 		nil,
 		ec.marshalNEducation2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐEducation,
@@ -1880,7 +1869,7 @@ func (ec *executionContext) _Mutation_addEducation(ctx context.Context, field gr
 	)
 }
 
-func (ec *executionContext) fieldContext_Mutation_addEducation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_createEducation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -1913,7 +1902,7 @@ func (ec *executionContext) fieldContext_Mutation_addEducation(ctx context.Conte
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_addEducation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_createEducation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2026,7 +2015,7 @@ func (ec *executionContext) _Mutation_addTechnicalSkill(ctx context.Context, fie
 		ec.fieldContext_Mutation_addTechnicalSkill,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().AddTechnicalSkill(ctx, fc.Args["userId"].(string), fc.Args["skill"].(string))
+			return ec.resolvers.Mutation().AddTechnicalSkill(ctx, fc.Args["skill"].(string))
 		},
 		nil,
 		ec.marshalNSkills2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐSkills,
@@ -2073,7 +2062,7 @@ func (ec *executionContext) _Mutation_removeTechnicalSkill(ctx context.Context, 
 		ec.fieldContext_Mutation_removeTechnicalSkill,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().RemoveTechnicalSkill(ctx, fc.Args["userId"].(string), fc.Args["skill"].(string))
+			return ec.resolvers.Mutation().RemoveTechnicalSkill(ctx, fc.Args["skill"].(string))
 		},
 		nil,
 		ec.marshalNSkills2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐSkills,
@@ -2120,7 +2109,7 @@ func (ec *executionContext) _Mutation_addSoftSkill(ctx context.Context, field gr
 		ec.fieldContext_Mutation_addSoftSkill,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().AddSoftSkill(ctx, fc.Args["userId"].(string), fc.Args["skill"].(string))
+			return ec.resolvers.Mutation().AddSoftSkill(ctx, fc.Args["skill"].(string))
 		},
 		nil,
 		ec.marshalNSkills2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐSkills,
@@ -2167,7 +2156,7 @@ func (ec *executionContext) _Mutation_removeSoftSkill(ctx context.Context, field
 		ec.fieldContext_Mutation_removeSoftSkill,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().RemoveSoftSkill(ctx, fc.Args["userId"].(string), fc.Args["skill"].(string))
+			return ec.resolvers.Mutation().RemoveSoftSkill(ctx, fc.Args["skill"].(string))
 		},
 		nil,
 		ec.marshalNSkills2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐSkills,
@@ -2206,15 +2195,15 @@ func (ec *executionContext) fieldContext_Mutation_removeSoftSkill(ctx context.Co
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_addProject(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Mutation_createProject(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
-		ec.fieldContext_Mutation_addProject,
+		ec.fieldContext_Mutation_createProject,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Mutation().AddProject(ctx, fc.Args["input"].(models.ProjectBasicUpdateInput))
+			return ec.resolvers.Mutation().CreateProject(ctx, fc.Args["input"].(models.ProjectBasicUpdateInput))
 		},
 		nil,
 		ec.marshalNProject2ᚖgithubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐProject,
@@ -2223,7 +2212,7 @@ func (ec *executionContext) _Mutation_addProject(ctx context.Context, field grap
 	)
 }
 
-func (ec *executionContext) fieldContext_Mutation_addProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_createProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -2268,7 +2257,7 @@ func (ec *executionContext) fieldContext_Mutation_addProject(ctx context.Context
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_addProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_createProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2712,6 +2701,35 @@ func (ec *executionContext) _PersonalInformation_professionalTitle(ctx context.C
 }
 
 func (ec *executionContext) fieldContext_PersonalInformation_professionalTitle(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PersonalInformation",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PersonalInformation_profileImage(ctx context.Context, field graphql.CollectedField, obj *models.PersonalInformation) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_PersonalInformation_profileImage,
+		func(ctx context.Context) (any, error) {
+			return obj.ProfileImage, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_PersonalInformation_profileImage(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "PersonalInformation",
 		Field:      field,
@@ -3408,6 +3426,8 @@ func (ec *executionContext) fieldContext_Query_personalInformation(_ context.Con
 				return ec.fieldContext_PersonalInformation_fullName(ctx, field)
 			case "professionalTitle":
 				return ec.fieldContext_PersonalInformation_professionalTitle(ctx, field)
+			case "profileImage":
+				return ec.fieldContext_PersonalInformation_profileImage(ctx, field)
 			case "bio":
 				return ec.fieldContext_PersonalInformation_bio(ctx, field)
 			case "email":
@@ -5722,7 +5742,7 @@ func (ec *executionContext) unmarshalInputUpdateEducationInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"degree", "school", "fieldOfStudy", "startDate", "endDate", "description"}
+	fieldsInOrder := [...]string{"degree", "school", "startDate", "location", "endDate", "description"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -5743,13 +5763,6 @@ func (ec *executionContext) unmarshalInputUpdateEducationInput(ctx context.Conte
 				return it, err
 			}
 			it.School = data
-		case "fieldOfStudy":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fieldOfStudy"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.FieldOfStudy = data
 		case "startDate":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate"))
 			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
@@ -5757,6 +5770,13 @@ func (ec *executionContext) unmarshalInputUpdateEducationInput(ctx context.Conte
 				return it, err
 			}
 			it.StartDate = data
+		case "location":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("location"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Location = data
 		case "endDate":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate"))
 			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
@@ -6163,9 +6183,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "addExperience":
+		case "createExperience":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_addExperience(ctx, field)
+				return ec._Mutation_createExperience(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -6184,9 +6204,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "addEducation":
+		case "createEducation":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_addEducation(ctx, field)
+				return ec._Mutation_createEducation(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -6233,9 +6253,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "addProject":
+		case "createProject":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_addProject(ctx, field)
+				return ec._Mutation_createProject(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -6330,6 +6350,11 @@ func (ec *executionContext) _PersonalInformation(ctx context.Context, sel ast.Se
 			}
 		case "professionalTitle":
 			out.Values[i] = ec._PersonalInformation_professionalTitle(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "profileImage":
+			out.Values[i] = ec._PersonalInformation_profileImage(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -7317,22 +7342,6 @@ func (ec *executionContext) marshalNExperience2ᚖgithubᚗcomᚋAmirhosᚑesm�
 		return graphql.Null
 	}
 	return ec._Experience(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNID2string(ctx context.Context, v any) (string, error) {
-	res, err := graphql.UnmarshalID(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
-	_ = sel
-	res := graphql.MarshalID(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
-		}
-	}
-	return res
 }
 
 func (ec *executionContext) marshalNPersonalInformation2githubᚗcomᚋAmirhosᚑesmᚋportfolioᚋmodelsᚐPersonalInformation(ctx context.Context, sel ast.SelectionSet, v models.PersonalInformation) graphql.Marshaler {

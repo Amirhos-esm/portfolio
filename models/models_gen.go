@@ -38,6 +38,7 @@ type Mutation struct {
 type PersonalInformation struct {
 	FullName          string      `json:"fullName"`
 	ProfessionalTitle string      `json:"professionalTitle"`
+	ProfileImage      string      `json:"profileImage"`
 	Bio               string      `json:"bio"`
 	Email             string      `json:"email"`
 	Phone             string      `json:"phone"`
@@ -113,12 +114,12 @@ type TechStackUpdateInput struct {
 }
 
 type UpdateEducationInput struct {
-	Degree       *string    `json:"degree,omitempty"`
-	School       *string    `json:"school,omitempty"`
-	FieldOfStudy *string    `json:"fieldOfStudy,omitempty"`
-	StartDate    *time.Time `json:"startDate,omitempty"`
-	EndDate      *time.Time `json:"endDate,omitempty"`
-	Description  *string    `json:"description,omitempty"`
+	Degree      *string    `json:"degree,omitempty"`
+	School      *string    `json:"school,omitempty"`
+	StartDate   *time.Time `json:"startDate,omitempty"`
+	Location    *string    `json:"location,omitempty"`
+	EndDate     *time.Time `json:"endDate,omitempty"`
+	Description *string    `json:"description,omitempty"`
 }
 
 type UpdateExperienceInput struct {

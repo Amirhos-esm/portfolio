@@ -285,15 +285,17 @@ func GenerateRandomString(n int) string {
 	// Convert the byte slice to a string and return it
 	return string(b)
 }
+
+// --- PatchStruct functions (copy your existing code here) ---
 func PatchStruct(dst any, src any) error {
 	dstVal := reflect.ValueOf(dst)
 	if dstVal.Kind() != reflect.Ptr || dstVal.Elem().Kind() != reflect.Struct {
-		return errors.New("dst must be pointer to struct")
+		return fmt.Errorf("dst must be pointer to struct")
 	}
 
 	srcVal := reflect.ValueOf(src)
 	if srcVal.Kind() != reflect.Ptr || srcVal.Elem().Kind() != reflect.Struct {
-		return errors.New("src must be pointer to struct")
+		return fmt.Errorf("src must be pointer to struct")
 	}
 
 	return patch(dstVal.Elem(), srcVal.Elem())
@@ -316,32 +318,38 @@ func patch(dst reflect.Value, src reflect.Value) error {
 
 		srcElem := srcField.Elem()
 
-		switch srcElem.Kind() {
-
-		// 🔹 Nested struct (like SocialLink)
-		case reflect.Struct:
-			// If destination is pointer to struct
+		switch srcElem.Type() {
+		case reflect.TypeOf(time.Time{}):
 			if dstField.Kind() == reflect.Ptr {
-				if dstField.IsNil() {
-					dstField.Set(reflect.New(dstField.Type().Elem()))
-				}
-				err := patch(dstField.Elem(), srcElem)
-				if err != nil {
-					return err
-				}
-			} else if dstField.Kind() == reflect.Struct {
-				err := patch(dstField, srcElem)
-				if err != nil {
-					return err
-				}
-			}
-
-		// 🔹 Primitive types
-		default:
-			if dstField.Kind() == srcElem.Kind() {
+				dstField.Set(reflect.New(reflect.TypeOf(time.Time{})))
+				dstField.Elem().Set(srcElem)
+			} else {
 				dstField.Set(srcElem)
 			}
+		default:
+			switch srcElem.Kind() {
+			case reflect.Struct:
+				if dstField.Kind() == reflect.Ptr {
+					if dstField.IsNil() {
+						dstField.Set(reflect.New(dstField.Type().Elem()))
+					}
+					err := patch(dstField.Elem(), srcElem)
+					if err != nil {
+						return err
+					}
+				} else if dstField.Kind() == reflect.Struct {
+					err := patch(dstField, srcElem)
+					if err != nil {
+						return err
+					}
+				}
+			default:
+				if dstField.Kind() == srcElem.Kind() {
+					dstField.Set(srcElem)
+				}
+			}
 		}
+
 	}
 
 	return nil

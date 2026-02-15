@@ -62,7 +62,7 @@ func NewApplication() *Application {
 	}
 }
 
-func (app *Application) newGraphQLServer() *handler.Server {
+func (app *Application) newGraphQLServer() gin.HandlerFunc {
 
 	srv := handler.New(
 		graph.NewExecutableSchema(
@@ -78,16 +78,18 @@ func (app *Application) newGraphQLServer() *handler.Server {
 
 	srv.Use(extension.Introspection{})
 
-
 	srv.Use(extension.AutomaticPersistedQuery{Cache: lru.New[string](100)})
 
-	return srv
+	return func(c *gin.Context) {
+		srv.ServeHTTP(c.Writer, c.Request)
+	}
 }
+
+
 
 func (app *Application) registerRoutes(r *gin.Engine) {
 
-	srv := app.newGraphQLServer()
-
+	r.Use(CORSMiddleware())
 	if app.enablePlayground {
 		r.GET("/GraphQL", gin.WrapH(
 			playground.Handler("GraphQL", "/graphql"),
@@ -98,16 +100,15 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 	r.GET("/", app.LandingPageHandler)
 	r.GET("/projects/:id", app.ProjectHandler)
 	r.Static("/static", app.staticFolder)
-	r.POST("/login", app.loginHandler)
+	r.POST("api/login", app.loginHandler)
 
 	// protected routes
 	admin := app.AuthRequiredMiddleware()
-	// admin := func(*gin.Context){}
+	// admin := func(*gin.Context) {}
 
-	r.POST("/graphql", admin, gin.WrapH(srv))
-	r.GET("/graphql", admin, gin.WrapH(srv))
+	r.POST("/api/graphql", admin, app.newGraphQLServer())
 
-	r.POST("/projects/:id/gallery/", admin, app.addProjectGallery)
-	r.POST("/profile", admin, app.profileUploadHandler)
-	r.POST("/resume", admin, app.resumeUploadHandler)
+	r.POST("api/projects/:id/gallery", admin, app.addProjectGallery)
+	r.POST("api/profile", admin, app.profileUploadHandler)
+	r.POST("api/resume", admin, app.resumeUploadHandler)
 }

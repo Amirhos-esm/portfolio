@@ -64,7 +64,7 @@ func (p *Project) AddFeature(feature *ProjectFeature) {
 	if feature == nil {
 		return
 	}
-	var max  uint = 0
+	var max uint = 0
 	for _, f := range p.Features {
 		if f.ID > uint(max) {
 			max = f.ID
@@ -156,12 +156,13 @@ func (s *Skills) AddTecknicalSkill(key string) bool {
 	if key == "" {
 		return false
 	}
-	for _, t := range s.Soft {
+
+	for _, t := range s.Technical {
 		if t == key {
 			return false
 		}
 	}
-	s.Soft = append(s.Soft, key)
+	s.Technical = append(s.Technical, key)
 	return true
 }
 
@@ -171,22 +172,25 @@ func (s *Skills) DeleteSoftSkill(key string) bool {
 	}
 	for _, t := range s.Soft {
 		if t == key {
-			return false
+			s.Soft = deleteByValue(s.Soft, key)
+			return true
 		}
 	}
-	s.Soft = deleteByValue(s.Soft, key)
-	return true
+
+	return false
+
 }
 func (s *Skills) DeleteTecknicalSkill(key string) bool {
-
 	if key == "" {
 		return false
 	}
 	for _, t := range s.Technical {
 		if t == key {
-			return false
+			s.Technical = deleteByValue(s.Technical, key)
+			return true
 		}
 	}
-	s.Technical = deleteByValue(s.Technical, key)
-	return true
+
+	return false
+
 }

@@ -29,8 +29,8 @@ func (r *mutationResolver) UpdatePersonalInformation(ctx context.Context, input 
 	return existing, nil
 }
 
-// AddExperience is the resolver for the addExperience field.
-func (r *mutationResolver) AddExperience(ctx context.Context, input models.UpdateExperienceInput) (*models.Experience, error) {
+// CreateExperience is the resolver for the createExperience field.
+func (r *mutationResolver) CreateExperience(ctx context.Context, input models.UpdateExperienceInput) (*models.Experience, error) {
 	exp := models.NewExperience()
 	if err := util.PatchStruct(exp, &input); err != nil {
 		return nil, err
@@ -73,8 +73,8 @@ func (r *mutationResolver) DeleteExperience(ctx context.Context, id uint) (bool,
 	return true, nil
 }
 
-// AddEducation is the resolver for the addEducation field.
-func (r *mutationResolver) AddEducation(ctx context.Context, input models.UpdateEducationInput) (*models.Education, error) {
+// CreateEducation is the resolver for the createEducation field.
+func (r *mutationResolver) CreateEducation(ctx context.Context, input models.UpdateEducationInput) (*models.Education, error) {
 	educ := models.NewEducation()
 	if err := util.PatchStruct(educ, &input); err != nil {
 		return nil, err
@@ -119,7 +119,7 @@ func (r *mutationResolver) DeleteEducation(ctx context.Context, id uint) (bool, 
 }
 
 // AddTechnicalSkill is the resolver for the addTechnicalSkill field.
-func (r *mutationResolver) AddTechnicalSkill(ctx context.Context, userID string, skill string) (*models.Skills, error) {
+func (r *mutationResolver) AddTechnicalSkill(ctx context.Context, skill string) (*models.Skills, error) {
 	skills, err := r.repo.GetSkills()
 	if err != nil || skills == nil {
 		return nil, ErrNotFound
@@ -137,7 +137,7 @@ func (r *mutationResolver) AddTechnicalSkill(ctx context.Context, userID string,
 }
 
 // RemoveTechnicalSkill is the resolver for the removeTechnicalSkill field.
-func (r *mutationResolver) RemoveTechnicalSkill(ctx context.Context, userID string, skill string) (*models.Skills, error) {
+func (r *mutationResolver) RemoveTechnicalSkill(ctx context.Context, skill string) (*models.Skills, error) {
 	skills, err := r.repo.GetSkills()
 	if err != nil || skills == nil {
 		return nil, ErrNotFound
@@ -155,7 +155,7 @@ func (r *mutationResolver) RemoveTechnicalSkill(ctx context.Context, userID stri
 }
 
 // AddSoftSkill is the resolver for the addSoftSkill field.
-func (r *mutationResolver) AddSoftSkill(ctx context.Context, userID string, skill string) (*models.Skills, error) {
+func (r *mutationResolver) AddSoftSkill(ctx context.Context, skill string) (*models.Skills, error) {
 	skills, err := r.repo.GetSkills()
 	if err != nil || skills == nil {
 		return nil, ErrNotFound
@@ -173,7 +173,7 @@ func (r *mutationResolver) AddSoftSkill(ctx context.Context, userID string, skil
 }
 
 // RemoveSoftSkill is the resolver for the removeSoftSkill field.
-func (r *mutationResolver) RemoveSoftSkill(ctx context.Context, userID string, skill string) (*models.Skills, error) {
+func (r *mutationResolver) RemoveSoftSkill(ctx context.Context, skill string) (*models.Skills, error) {
 	skills, err := r.repo.GetSkills()
 	if err != nil || skills == nil {
 		return nil, ErrNotFound
@@ -190,8 +190,8 @@ func (r *mutationResolver) RemoveSoftSkill(ctx context.Context, userID string, s
 	return skills, nil
 }
 
-// AddProject is the resolver for the addProject field.
-func (r *mutationResolver) AddProject(ctx context.Context, input models.ProjectBasicUpdateInput) (*models.Project, error) {
+// CreateProject is the resolver for the createProject field.
+func (r *mutationResolver) CreateProject(ctx context.Context, input models.ProjectBasicUpdateInput) (*models.Project, error) {
 	project := models.NewProject()
 	if err := util.PatchStruct(project, &input); err != nil {
 		return nil, err
@@ -287,7 +287,6 @@ func (r *mutationResolver) AddProjectFeature(ctx context.Context, projectID uint
 		return nil, err
 	}
 	return feature, nil
-
 }
 
 // UpdateProjectFeature is the resolver for the updateProjectFeature field.
@@ -412,3 +411,33 @@ func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+/*
+	func GetPreloads(ctx context.Context) []string {
+	return GetNestedPreloads(
+		graphql.GetOperationContext(ctx),
+		graphql.CollectFieldsCtx(ctx, nil),
+		"",
+	)
+}
+func GetNestedPreloads(ctx *graphql.OperationContext, fields []graphql.CollectedField, prefix string) (preloads []string) {
+	for _, column := range fields {
+		prefixColumn := GetPreloadString(prefix, column.Name)
+		preloads = append(preloads, prefixColumn)
+		preloads = append(preloads, GetNestedPreloads(ctx, graphql.CollectFields(ctx, column.Selections, nil), prefixColumn)...)
+	}
+	return
+}
+func GetPreloadString(prefix, name string) string {
+	if len(prefix) > 0 {
+		return prefix + "." + name
+	}
+	return name
+}
+*/

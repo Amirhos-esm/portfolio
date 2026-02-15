@@ -24,6 +24,7 @@ type SocialLink {
 type PersonalInformation {
   fullName: String!
   professionalTitle: String!
+  profileImage: String!
   bio: String!
   email: String!
   phone: String!
@@ -112,7 +113,7 @@ input UpdateExperienceInput {
   company: String
   location: String
   startDate: Time
-  endDate: Time
+  endDate: Time 
 #  isWorking: Boolean
   description: String
 }
@@ -120,8 +121,8 @@ input UpdateExperienceInput {
 input UpdateEducationInput {
   degree: String
   school: String
-  fieldOfStudy: String
   startDate: Time
+  location: String
   endDate: Time
   description: String
 }
@@ -170,22 +171,22 @@ type Mutation {
   updatePersonalInformation(
     input: UpdatePersonalInformationInput!
   ): PersonalInformation!
-  addExperience(input: UpdateExperienceInput!): Experience!
+  createExperience(input: UpdateExperienceInput!): Experience!
   updateExperience(id: Uint!, input: UpdateExperienceInput!): Experience!
   deleteExperience(id: Uint!): Boolean!
 
 
-  addEducation( input: UpdateEducationInput!): Education!
+  createEducation( input: UpdateEducationInput!): Education!
   updateEducation(id: Uint!, input: UpdateEducationInput!): Education!
   deleteEducation(id: Uint!): Boolean!
 
 
-  addTechnicalSkill(userId: ID!, skill: String!): Skills!
-  removeTechnicalSkill(userId: ID!, skill: String!): Skills!
-  addSoftSkill(userId: ID!, skill: String!): Skills!
-  removeSoftSkill(userId: ID!, skill: String!): Skills!
+  addTechnicalSkill(skill: String!): Skills!
+  removeTechnicalSkill(skill: String!): Skills!
+  addSoftSkill( skill: String!): Skills!
+  removeSoftSkill(skill: String!): Skills!
 
-  addProject(input: ProjectBasicUpdateInput!): Project!
+  createProject(input: ProjectBasicUpdateInput!): Project!
    updateProjectBasic(
     projectId: Uint!
     input: ProjectBasicUpdateInput!

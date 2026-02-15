@@ -20,21 +20,21 @@ type Authentication struct {
 }
 
 func (app *Application) loginHandler(ctx *gin.Context) {
-	// type Authentication struct {
-	// 	Password string `json:"password"`
-	// }
-	// // read json payload
-	// input := Authentication{}
-	// // Parse and validate the JSON input
-	// if err := ctx.ShouldBindJSON(&input); err != nil {
-	// 	ctx.String(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
+	type Authentication struct {
+		Password string `json:"password"`
+	}
+	// read json payload
+	input := Authentication{}
+	// Parse and validate the JSON input
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.String(http.StatusBadRequest, err.Error())
+		return
+	}
 
-	// if input.Password != app.password {
-	// 	ctx.String(http.StatusUnauthorized, "")
-	// 	return
-	// }
+	if input.Password != app.password {
+		ctx.String(http.StatusUnauthorized, "")
+		return
+	}
 
 	// create a jwt user
 	jwt_user := jwtUser{
@@ -124,8 +124,8 @@ func (app *Application) addProjectGallery(ctx *gin.Context) {
 		return
 	}
 
-	// Optional: size limit (e.g. 500kB)
-	if file.Size > 1000*500 {
+	// Optional: size limit (e.g. 2500kB)
+	if file.Size > 1000*2500 {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "file too large"})
 		return
 	}
@@ -228,8 +228,8 @@ func (app *Application) profileUploadHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "file is required"})
 		return
 	}
-	// Optional: size limit (e.g. 3.5MB)
-	if file.Size > 1000*3500 {
+	// Optional: size limit (e.g. 500KB)
+	if file.Size > 1000*500 {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "file too large"})
 		return
 	}
@@ -253,6 +253,14 @@ func (app *Application) profileUploadHandler(ctx *gin.Context) {
 
 	if err := ctx.SaveUploadedFile(file, dst); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save file"})
+		return
+	}
+	
+	data , _ := app.repo.GetPersonalInformation()
+	data.ProfileImage = dst
+	err = app.repo.UpdatePersonalInformation(data)
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 

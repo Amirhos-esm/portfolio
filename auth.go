@@ -38,7 +38,7 @@ type jwtUser struct {
 	LastName  string `json:"last_name"`
 }
 type TokenPairs struct {
-	Token        string `json:"access_token"`
+	Token        string `json:"token"`
 	RefreshToken string `json:"refresh_token"`
 }
 type Claims struct {
