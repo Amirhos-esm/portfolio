@@ -1,3 +1,4 @@
+//go:generate templ generate
 package views
 
 import (
