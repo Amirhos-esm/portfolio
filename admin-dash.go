@@ -11,12 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//go:embed admin/*
+//go:embed admin/out/*
 var frontendFS embed.FS
 
 func initAdminPanel(sv *gin.Engine) {
 
-	sub, err := fs.Sub(frontendFS, "admin")
+	sub, err := fs.Sub(frontendFS, "admin/out")
 	if err != nil {
 		panic(err)
 	}

@@ -10,3 +10,5 @@ static/project
 data.json
 
 admin/out
+
+/static/resume.pdf
