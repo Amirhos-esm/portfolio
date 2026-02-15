@@ -18,6 +18,7 @@ run () {
 }
 
 # ------------------------
+run "installing templ" go install github.com/a-h/templ/cmd/templ@latest
 
 run "Generating Go files" go generate ./...
 
