@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+type CreateMessageInput struct {
+	Fullname string `json:"fullname"`
+	Email    string `json:"email"`
+	Message  string `json:"message"`
+}
+
 type CreateProjectFeatureInput struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -30,6 +36,19 @@ type Experience struct {
 	StartDate   time.Time  `json:"startDate"`
 	EndDate     *time.Time `json:"endDate,omitempty"`
 	Description string     `json:"description"`
+}
+
+type Message struct {
+	ID       uint      `json:"id"`
+	Fullname string    `json:"fullname"`
+	Email    string    `json:"email"`
+	Message  string    `json:"message"`
+	Createat time.Time `json:"createat"`
+}
+
+type MessagePageInput struct {
+	Offset *int32 `json:"offset,omitempty"`
+	Limit  *int32 `json:"limit,omitempty"`
 }
 
 type Mutation struct {

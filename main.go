@@ -7,6 +7,7 @@ import (
 	"github.com/Amirhos-esm/portfolio/models"
 	"github.com/Amirhos-esm/portfolio/repository"
 	"github.com/Amirhos-esm/portfolio/repository/json"
+	"github.com/Amirhos-esm/portfolio/repository/sqlite"
 	"github.com/Amirhos-esm/portfolio/util"
 	"github.com/vektah/gqlparser/v2/ast"
 
@@ -21,6 +22,7 @@ import (
 
 type Application struct {
 	repo             repository.Repository
+	messageRepo      repository.MessageRepository
 	auth             Auth
 	host             string
 	password         string
@@ -47,7 +49,6 @@ func NewApplication() *Application {
 	if host == "" {
 		host = "localhost:8080"
 	}
-	
 
 	enablePlayground := os.Getenv("PLAYGROUND") != ""
 
@@ -59,13 +60,19 @@ func NewApplication() *Application {
 		panic(err)
 	}
 
+	messageRepo, err := sqlite.NewMessageGorm()
+	if err != nil {
+		panic(err)
+	}
+
 	return &Application{
 		repo:             repo,
+		messageRepo: messageRepo,
 		auth:             NewAuth(),
 		password:         password,
 		enablePlayground: enablePlayground,
 		staticFolder:     "./static",
-		host: host,
+		host:             host,
 	}
 }
 

@@ -27,7 +27,12 @@ type Repository interface {
 	GetSkills() (*models.Skills, error)
 	UpdateSkills(*models.Skills) error
 
+	GetAllData() (*models.DataStore, error)
+}
 
-	GetAllData()(*models.DataStore,error)
-
+type MessageRepository interface {
+	Create(*models.Message) error
+	GetbyId(id uint) (*models.Message, error)
+	Get(offset uint,limit uint)([]*models.Message, error)
+	Delete(id uint) error
 }

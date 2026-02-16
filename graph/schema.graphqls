@@ -4,6 +4,14 @@ scalar Map
 scalar Uint
 scalar StringArrayMap
 
+type Message {
+  id: Uint!
+  fullname: String!
+  email: String!
+  message: String!
+  createat: Time!
+}
+
 type Experience {
   id: Uint!
   jobTitle: String!
@@ -80,6 +88,17 @@ type Project {
   features: [ProjectFeature!]!
 }
 
+input CreateMessageInput {
+  fullname: String!
+  email: String!
+  message: String!
+}
+
+input MessagePageInput {
+  offset: Int = 0
+  limit: Int = 10
+}
+
 type Query {
   personalInformation: PersonalInformation!
   skills: Skills!
@@ -89,6 +108,9 @@ type Query {
   experience(id: Uint!): Experience!
   projects: [Project!]!
   project(id: Uint!): Project!
+
+  message(id: Uint!): Message!
+  messages(page: MessagePageInput!): [Message!]!
 }
 
 input UpdatePersonalInformationInput {
@@ -222,4 +244,6 @@ type Mutation {
     imageId: String!
   ): Boolean!
 
+  createMessage(input: CreateMessageInput!): Message!
+  deleteMessage(id: Uint!): Boolean!
 }

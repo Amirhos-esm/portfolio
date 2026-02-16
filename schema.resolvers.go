@@ -7,6 +7,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Amirhos-esm/portfolio/graph"
 	"github.com/Amirhos-esm/portfolio/models"
@@ -337,6 +338,32 @@ func (r *mutationResolver) DeleteProjectGallery(ctx context.Context, projectID u
 	return true, nil
 }
 
+// CreateMessage is the resolver for the createMessage field.
+func (r *mutationResolver) CreateMessage(ctx context.Context, input models.CreateMessageInput) (*models.Message, error) {
+	msg := models.NewMessage(input.Message, input.Email, input.Fullname)
+	err := r.messageRepo.Create(msg)
+	if err != nil {
+		return nil, err
+	}
+	return msg, nil
+}
+
+// DeleteMessage is the resolver for the deleteMessage field.
+func (r *mutationResolver) DeleteMessage(ctx context.Context, id uint) (bool, error) {
+	msg, err := r.messageRepo.GetbyId(id)
+	if err != nil {
+		return false, err
+	}
+	if msg == nil {
+		return false, fmt.Errorf("404:not found")
+	}
+	err = r.messageRepo.Delete(id)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
 // PersonalInformation is the resolver for the personalInformation field.
 func (r *queryResolver) PersonalInformation(ctx context.Context) (*models.PersonalInformation, error) {
 	personal, err := r.repo.GetPersonalInformation()
@@ -405,6 +432,30 @@ func (r *queryResolver) Project(ctx context.Context, id uint) (*models.Project, 
 	return project, nil
 }
 
+// Message is the resolver for the message field.
+func (r *queryResolver) Message(ctx context.Context, id uint) (*models.Message, error) {
+	msg, err := r.messageRepo.GetbyId(id)
+	if err != nil {
+		return nil, err
+	}
+	if msg == nil {
+		return nil, fmt.Errorf("404:not found")
+	}
+	return msg, nil
+}
+
+// Messages is the resolver for the messages field.
+func (r *queryResolver) Messages(ctx context.Context, page models.MessagePageInput) ([]*models.Message, error) {
+	msgs, err := r.messageRepo.Get(uint(*page.Offset),uint(*page.Limit))
+	if err != nil {
+		return nil, err
+	}
+	if msgs == nil {
+		return nil, fmt.Errorf("404:not found")
+	}
+	return msgs, nil
+}
+
 // Mutation returns graph.MutationResolver implementation.
 func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
@@ -413,33 +464,3 @@ func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-/*
-	func GetPreloads(ctx context.Context) []string {
-	return GetNestedPreloads(
-		graphql.GetOperationContext(ctx),
-		graphql.CollectFieldsCtx(ctx, nil),
-		"",
-	)
-}
-func GetNestedPreloads(ctx *graphql.OperationContext, fields []graphql.CollectedField, prefix string) (preloads []string) {
-	for _, column := range fields {
-		prefixColumn := GetPreloadString(prefix, column.Name)
-		preloads = append(preloads, prefixColumn)
-		preloads = append(preloads, GetNestedPreloads(ctx, graphql.CollectFields(ctx, column.Selections, nil), prefixColumn)...)
-	}
-	return
-}
-func GetPreloadString(prefix, name string) string {
-	if len(prefix) > 0 {
-		return prefix + "." + name
-	}
-	return name
-}
-*/
