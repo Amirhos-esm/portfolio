@@ -446,7 +446,7 @@ func (r *queryResolver) Message(ctx context.Context, id uint) (*models.Message, 
 
 // Messages is the resolver for the messages field.
 func (r *queryResolver) Messages(ctx context.Context, page models.MessagePageInput) ([]*models.Message, error) {
-	msgs, err := r.messageRepo.Get(uint(*page.Offset),uint(*page.Limit))
+	msgs, err := r.messageRepo.Get(uint(*page.Offset), uint(*page.Limit))
 	if err != nil {
 		return nil, err
 	}

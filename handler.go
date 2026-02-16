@@ -255,8 +255,8 @@ func (app *Application) profileUploadHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save file"})
 		return
 	}
-	
-	data , _ := app.repo.GetPersonalInformation()
+
+	data, _ := app.repo.GetPersonalInformation()
 	data.ProfileImage = dst
 	err = app.repo.UpdatePersonalInformation(data)
 	if err != nil {
@@ -268,4 +268,39 @@ func (app *Application) profileUploadHandler(ctx *gin.Context) {
 		"message": "file uploaded",
 		"path":    dst,
 	})
+}
+
+func (app *Application) createMessageHandler(ctx *gin.Context) {
+
+	var input struct {
+		Fullname string `json:"fullname" binding:"required"`
+		Email    string `json:"email" binding:"required,email"`
+		Message  string `json:"message" binding:"required"`
+	}
+
+	// Parse JSON body
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// Build model
+	msg := models.NewMessage(
+		input.Message,
+		input.Email,
+		input.Fullname,
+	)
+
+	// Save using repository
+	if err := app.messageRepo.Create(msg); err != nil {
+		ctx.JSON(500, gin.H{
+			"error": "failed to create message",
+		})
+		return
+	}
+
+	// Return created object
+	ctx.JSON(201, msg)
 }

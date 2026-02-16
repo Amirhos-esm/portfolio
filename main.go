@@ -70,7 +70,7 @@ func NewApplication() *Application {
 		messageRepo: messageRepo,
 		auth:             NewAuth(),
 		password:         password,
-		enablePlayground: enablePlayground,
+		enablePlayground: !enablePlayground,
 		staticFolder:     "./static",
 		host:             host,
 	}
@@ -104,7 +104,7 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 	r.Use(CORSMiddleware())
 	if app.enablePlayground {
 		r.GET("/GraphQL", gin.WrapH(
-			playground.Handler("GraphQL", "/graphql"),
+			playground.Handler("GraphQL", "/api/graphql"),
 		))
 	}
 	//init admin panel
@@ -114,10 +114,12 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 	r.GET("/projects/:id", app.ProjectHandler)
 	r.Static("/static", app.staticFolder)
 	r.POST("api/login", app.loginHandler)
+	//create message
+	r.POST("api/message", app.createMessageHandler)
 
 	// protected routes
-	admin := app.AuthRequiredMiddleware()
-	// admin := func(*gin.Context) {}
+	// admin := app.AuthRequiredMiddleware()
+	admin := func(*gin.Context) {}
 
 	r.POST("/api/graphql", admin, app.newGraphQLServer())
 
