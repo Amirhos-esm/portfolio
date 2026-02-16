@@ -118,8 +118,8 @@ func (app *Application) registerRoutes(r *gin.Engine) {
 	r.POST("api/message", app.createMessageHandler)
 
 	// protected routes
-	// admin := app.AuthRequiredMiddleware()
-	admin := func(*gin.Context) {}
+	admin := app.AuthRequiredMiddleware()
+	// admin := func(*gin.Context) {}
 
 	r.POST("/api/graphql", admin, app.newGraphQLServer())
 
