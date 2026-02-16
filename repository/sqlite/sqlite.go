@@ -14,7 +14,7 @@ type MessageGorm struct {
 
 func InitDB() (*gorm.DB, error) {
 
-	db, err := gorm.Open(sqlite.Open("app.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("sqlite.db"), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}

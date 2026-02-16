@@ -13,7 +13,6 @@ admin/out
 
 /static/resume.pdf
 
-
+sqlite.db
 output/
 
-app.db
