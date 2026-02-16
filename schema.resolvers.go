@@ -51,6 +51,7 @@ func (r *mutationResolver) UpdateExperience(ctx context.Context, id uint, input 
 	if err := util.PatchStruct(exp, &input); err != nil {
 		return nil, err
 	}
+	exp.EndDate = input.EndDate
 
 	if err := r.repo.UpdateExperience(id, exp); err != nil {
 		return nil, err
@@ -96,6 +97,7 @@ func (r *mutationResolver) UpdateEducation(ctx context.Context, id uint, input m
 	if err := util.PatchStruct(edu, &input); err != nil {
 		return nil, err
 	}
+	edu.EndDate = input.EndDate
 
 	if err := r.repo.UpdateEducation(id, edu); err != nil {
 		return nil, err
