@@ -7,6 +7,9 @@ A modern developer portfolio built to showcase  projects, skills, and experience
 
 All fields — including personal information, skills, education, experience, projects, and messages — can be easily managed from the admin panel at ``` /admin ```
 
+![Alt text](https://raw.githubusercontent.com/Amirhos-esm/portfolio/main/static/image.png)
+
+
 ---
 
 ## ✨ Features
