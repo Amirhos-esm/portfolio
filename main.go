@@ -22,6 +22,7 @@ import (
 type Application struct {
 	repo             repository.Repository
 	auth             Auth
+	host             string
 	password         string
 	enablePlayground bool
 	staticFolder     string
@@ -33,7 +34,7 @@ func main() {
 	router := gin.Default()
 	app.registerRoutes(router)
 
-	router.Run("localhost:8080")
+	router.Run(app.host)
 }
 
 func NewApplication() *Application {
@@ -42,6 +43,11 @@ func NewApplication() *Application {
 	if password == "" {
 		password = "demo"
 	}
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "localhost:8080"
+	}
+	
 
 	enablePlayground := os.Getenv("PLAYGROUND") != ""
 
@@ -59,6 +65,7 @@ func NewApplication() *Application {
 		password:         password,
 		enablePlayground: enablePlayground,
 		staticFolder:     "./static",
+		host: host,
 	}
 }
 
