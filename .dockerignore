@@ -1,0 +1,46 @@
+admin/v0-portfolio-admin-dashboard/
+output
+stitch
+test
+tools
+
+build.sh
+data.json
+.gitignore
+.gitmodules
+Readme.md
+
+
+
+# Git
+.git
+.gitignore
+
+# Docker files themselves (optional)
+Dockerfile
+docker-compose.yml
+
+
+# Go cache / temp
+*.test
+*.log
+tmp/
+
+
+# IDE files
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+
+# Env files (IMPORTANT)
+.env
+.env.*
+
+# Local database files (optional)
+*.db
+*.sqlite
+*.sqlite3
